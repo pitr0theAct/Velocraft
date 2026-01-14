@@ -1,3 +1,5 @@
+using Blazored.Modal;
+using Demo.BaseFramework.LogTools;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -12,7 +14,13 @@ namespace Demo
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
-
+            builder.Services.AddBlazoredModal();
+            var currentProcessFilePath = new FileInfo(Environment.ProcessPath);
+            builder.Environment.WebRootPath = Path.Combine(currentProcessFilePath.DirectoryName, "wwwroot");
+            builder.Environment.ContentRootPath = currentProcessFilePath.DirectoryName;
+            Environment.CurrentDirectory = currentProcessFilePath.DirectoryName;
+            Log.WriteHtmlHeader(Log.commonLogPath);
+            Log.Info(">>>>New session<<<<");
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
