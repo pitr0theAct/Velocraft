@@ -26,5 +26,10 @@ namespace Demo.PageObjects
                 $"в '{recipientsArea.Description}'");
             return isRecipientPresent;
         }
+
+        public FeedPage CreatePost(string postText)
+        {
+            return new FeedPage();
+        }
     }
 }

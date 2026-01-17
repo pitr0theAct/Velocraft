@@ -19,5 +19,26 @@ namespace Demo.PageObjects
             btnPostCreate.Click(Driver);
             return new FeedPostForm(Driver);
         }
+
+        public FeedPage AddComment(string commentText)
+        {
+            return new FeedPage();
+        }
+
+        public FeedPage FeedSearch(string Text)
+        {
+            return new FeedPage();
+        }
+
+        public FeedPage CommentReply(string secondComment)
+        {
+            return new FeedPage();
+        }
+
+        public bool AssertCommentReply(string secondComment)
+        {
+            new WebItemWrap($"//div[text()='{secondComment}']", "Текст ответа на сообщение").AssertTextContaining(secondComment, "Ответ на сообщение некорректный");
+            throw new NotImplementedException();
+        }
     }
 }
