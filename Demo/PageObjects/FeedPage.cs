@@ -20,17 +20,7 @@ namespace Demo.PageObjects
             return new FeedPostForm(Driver);
         }
 
-        public FeedPage AddComment(string commentText)
-        {
-            return new FeedPage();
-        }
-
         public FeedPage FeedSearch(string Text)
-        {
-            return new FeedPage();
-        }
-
-        public FeedPage CommentReply(string secondComment)
         {
             return new FeedPage();
         }
@@ -39,6 +29,13 @@ namespace Demo.PageObjects
         {
             new WebItemWrap($"//div[text()='{secondComment}']", "Текст ответа на сообщение").AssertTextContaining(secondComment, "Ответ на сообщение некорректный");
             throw new NotImplementedException();
+        }
+
+        //Нужно реализовать периход в раздел комментариев при нажатии на кнопку "комментировать"
+        public PostCommentSection OpenCommentSection()
+        {
+            var btnCommentPost = new WebItemWrap("//a[contains(@id, 'blog-post') and text() ='Комментировать' ]", "Кнопка 'коментировать' под постом");
+            return new PostCommentSection();
         }
     }
 }

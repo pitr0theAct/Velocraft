@@ -41,8 +41,12 @@ namespace Demo.TestCases
             //Найти пост в ленте
                 .FeedSearch(postText);
             newsPost
-            //Написать комментарий
-                .AddComment(firstComment);
+            //Открыть комментарии
+                .OpenCommentSection()
+            //Пишем текст комментария
+                .FillCommentText(firstComment)
+            //Отправляем комментарий
+                .SendComment();
 
             //Авторизировываемся вторым юзером и открываем ленту новостей
             var regularEmployee = ExecutableTestCase.RunningTestCase.CreatePortalTestUser(false);
@@ -51,8 +55,14 @@ namespace Demo.TestCases
             homePage2.SideMenu.OpenNews()
             //Найти комментарий в ленте
                 .FeedSearch(firstComment)
-            //Ответить на комментарий
-                .CommentReply(secondComment);
+            //Открыть комментарии
+                .OpenCommentSection()
+            //Нажать на кнопку ответа на комментарий
+                .CommentReply()
+            //Пишем текст комментария
+                .FillCommentText(secondComment)
+            //Отправляем комментарий
+                .SendComment();
             driver2.Close();
 
             //Рефрешнуть страницу
