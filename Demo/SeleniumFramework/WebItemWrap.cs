@@ -49,6 +49,12 @@ namespace Demo.SeleniumFramework
             PerformAction((frame, d) => { d.SwitchTo().Frame(frame); }, driver);
         }
 
+        public void SwitchToDefaultContent(IWebDriver driver = default)
+        {
+            LogActionInfo(nameof(SwitchToDefaultContent));
+            PerformDriverAction(d => d.SwitchTo().DefaultContent(), driver);
+        }
+
         /// <summary>
         /// Выбирает элемент в списке по его тексту
         /// </summary>

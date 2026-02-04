@@ -32,9 +32,9 @@ namespace Demo.TestCases
             newsPage
             //Открываем форму создания поста
                 .OpenAddPostForm()
-            //Создаем пост
+            //Выкладываем пост
                 .CreatePost(postText);
-
+            
             //Оставляем первый комментарий
             //Перейти в ленту
             var newsPost = newsPage

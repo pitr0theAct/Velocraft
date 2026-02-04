@@ -189,6 +189,61 @@ namespace Demo.SeleniumFramework
             }
         }
 
+        protected void PerformDriverAction(
+    Action<IWebDriver> seleniumCode,
+    IWebDriver driver,
+    bool throwAtDebug = false)
+        {
+            driver ??= DefaultDriver;
+
+            try
+            {
+                int staleRetryMaxCount = 3;
+                bool interceptedFirstTry = true;
+
+                for (int i = 0; i < staleRetryMaxCount; i++)
+                {
+                    try
+                    {
+                        seleniumCode.Invoke(driver);
+                        break;
+                    }
+                    catch (WebDriverException ex)
+                    {
+                        if (ex is StaleElementReferenceException)
+                        {
+                            if (i == staleRetryMaxCount - 1)
+                                throw;
+                            Thread.Sleep(2000);
+                            continue;
+                        }
+                        else if (ex is ElementClickInterceptedException)
+                        {
+                            if (ex.Message.Contains("helpdesk-notification-popup"))
+                            {
+                                new WebItemWrap("//div[contains(@class, 'popup-close-btn')]",
+                                    "Кнопка закрытия баннера").Click(driver);
+                                if (interceptedFirstTry)
+                                    i++;
+                                interceptedFirstTry = false;
+                                continue;
+                            }
+                            else
+                                throw;
+                        }
+                        else
+                            throw;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                if (throwAtDebug || !EnvSettings.IsDebug)
+                    throw;
+                Debug.Fail(e.ToString());
+            }
+        }
+
         protected void LogActionInfo(string actionTitle)
         {
             Log.Info($" {actionTitle}: " + DescriptionFull);
