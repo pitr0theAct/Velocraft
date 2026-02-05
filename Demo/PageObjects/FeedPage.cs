@@ -29,7 +29,7 @@ namespace Demo.PageObjects
             feedSearchButton.Click(Driver);
             searchTextArea.SendKeys(postText, Driver);
             //Ждем появления результатов поиска
-            new WebItemWrap($"//div[@class='feed-post-text' and text()='{postText}']", "Пост соответствующий результатам поиска").WaitDisplayed(50);
+            new WebItemWrap($"//div[@class='feed-post-text' and text()='{postText}']", "Пост соответствующий результатам поиска").WaitDisplayed(50, Driver);
             return new FeedPost(Driver);
         }
 
