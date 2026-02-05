@@ -54,7 +54,7 @@ namespace Demo.TestCases
             var homePage2 = new WebLoginPage(ExecutableTestCase.RunningTestCase.TestPortal, driver2).Login(regularEmployee);
             homePage2.SideMenu.OpenNews()
             //Найти комментарий в ленте
-                .FeedSearch(firstComment)
+                .FeedSearch(postText)
             //Открыть комментарии
                 .OpenCommentSection()
             //Нажать на кнопку ответа на комментарий

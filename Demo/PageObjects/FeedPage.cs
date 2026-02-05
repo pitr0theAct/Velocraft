@@ -26,10 +26,10 @@ namespace Demo.PageObjects
 
         public FeedPost FeedSearch(string postText)
         {
-            //Ожидание пока опубликуется пост
-            WaitersCore.Wait_s(5);
             feedSearchButton.Click(Driver);
             searchTextArea.SendKeys(postText, Driver);
+            //Ждем появления результатов поиска
+            new WebItemWrap($"//div[@class='feed-post-text' and text()='{postText}']", "Пост соответствующий результатам поиска").WaitDisplayed(50);
             return new FeedPost(Driver);
         }
 

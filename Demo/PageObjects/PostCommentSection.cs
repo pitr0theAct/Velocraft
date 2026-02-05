@@ -35,14 +35,15 @@ namespace Demo.PageObjects
         public FeedPage SendComment()
         {
             sendCommentButton.Click(Driver);
-            WaitersCore.Wait_s(5);//Ожидание пока отправится комментарий
+            //Ждем пока кнопка отправки комментария отображается
+            sendCommentButton.WaitWhileDisplayed(50);
             return new FeedPage(Driver);
         }
 
         public PostCommentSection CommentReply()
         {
             replyCommentButton.Click(Driver);
-            WaitersCore.Wait_s(5);//Ожидание пока не появится поля для ввода комментария 
+            new WebItemWrap("//div[contains(@class, 'add-box-outer-form-shown')]", "Ожидание появления поля для ввода комментария").WaitDisplayed(50, Driver);
             return new PostCommentSection(Driver);
         }
     }

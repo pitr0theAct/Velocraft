@@ -42,6 +42,8 @@ namespace Demo.PageObjects
             postTextField.SendKeys(postText, Driver);
             postTextField.SwitchToDefaultContent(Driver);
             sendPost.Click(Driver);
+            //Ждем пока кнопка публикации поста отображается
+            sendPost.WaitWhileDisplayed(50);
             return new FeedPage(Driver);
         }
     }

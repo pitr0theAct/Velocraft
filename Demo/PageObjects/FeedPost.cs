@@ -23,8 +23,6 @@ namespace Demo.PageObjects
 
         public PostCommentSection OpenCommentSection()
         {
-            //Ожидание пока появятся результаты поиска
-            WaitersCore.Wait_s(5);
             btnCommentPost.Click(Driver);
             return new PostCommentSection(Driver);
         }
