@@ -16,10 +16,9 @@ namespace Demo.TestCases
 
         public static void SlotsCreateMeet(WebHomePage homePage)
         {
-            //Данные для заполнения информации слота(имя, email, тема встречи)
-            string meetingName = HelperMethodsCore.GetDateTimeSalt() + "_meeting";
-            string externalName = "ExternalUser_" + HelperMethodsCore.GetDateTimeSalt();
-            string externalEmail = $"user_{HelperMethodsCore.GetDateTimeSalt()}@example.com";
+            //Данные для заполнения информации слота(имя, email)
+            string Name = "ExternalUser_" + HelperMethodsCore.GetDateTimeSalt();
+            string Email = $"user_{HelperMethodsCore.GetDateTimeSalt()}@example.com";
 
             //Открываем портал
             Uri slotLink = homePage.SideMenu.
@@ -36,16 +35,16 @@ namespace Demo.TestCases
             //Открываем страницу для создания слота
             new WebSlotBookingPage(driver2).
             //Выбираем время
-            SelectSlotTime()
+            SelectSlotTime()//До этого места все работает
             //Заполняем данные
-            .FillSlotData(meetingName, externalName, externalEmail);
+            .FillSlotData(Name, Email);
             //Закрываем вкладку
             driver2.Close();
 
             //возвращаемся на страницу календаря
             homePage.SideMenu.OpenCalendar().
             //проверяем наличие события
-            AssertMeeting(meetingName, externalName, externalEmail);
+            AssertMeeting(Name, Email);
         }
     }
 

@@ -70,6 +70,8 @@ namespace Demo.PageObjects
 
         public CalendarPage OpenCalendar()
         {
+            var btnCalendar = new WebItemWrap("//li[@id='bx_left_menu_menu_calendar']", "Пункт левого меню Календарь");
+            ClickMenuItem(btnCalendar);
             return new CalendarPage(Driver);
         }
     }
