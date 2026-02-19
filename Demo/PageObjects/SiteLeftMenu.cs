@@ -67,5 +67,10 @@ namespace Demo.PageObjects
             ClickMenuItem(btnNews);
             return new FeedPage(Driver);
         }
+
+        public CalendarPage OpenCalendar()
+        {
+            return new CalendarPage(Driver);
+        }
     }
 }
