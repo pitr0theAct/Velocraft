@@ -7,7 +7,8 @@ namespace Demo.PageObjects
 {
     public class SlotsMenu
     {
-        WebItemWrap btnGetLink => new WebItemWrap("//div[@class='calendar-sharing__dialog-notify']/a", "Кнопка создайте тестовую встречу");
+        WebItemWrap btnGetLink => new WebItemWrap("//span[@class='ui-btn ui-btn-success ui-btn-round ui-btn-no-caps calendar-sharing__dialog-copy']",
+            "Кнопка Копировать ссылку");
 
         public SlotsMenu(IWebDriver driver = default)
         {
@@ -19,7 +20,8 @@ namespace Demo.PageObjects
         public Uri CopySlotLink()
         {
             btnGetLink.WaitDisplayed(50, Driver);//Ожидание появления кнопки 'создайте тестовую встречу'
-            string link = btnGetLink.GetAttribute("href");
+            btnGetLink.Click(Driver);
+            string link = ClipboardWrapper.GetText();
             Uri uri = new Uri(link);
             return uri;
         }
