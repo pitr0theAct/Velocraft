@@ -1,4 +1,5 @@
-﻿using Demo.SeleniumFramework;
+﻿using Demo.BaseFramework;
+using Demo.SeleniumFramework;
 using OpenQA.Selenium;
 using System.Data.SqlTypes;
 
@@ -17,6 +18,7 @@ namespace Demo.PageObjects
 
         public Uri CopySlotLink()
         {
+            btnGetLink.WaitDisplayed(50, Driver);//Ожидание появления кнопки 'создайте тестовую встречу'
             string link = btnGetLink.GetAttribute("href");
             Uri uri = new Uri(link);
             return uri;

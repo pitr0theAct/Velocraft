@@ -13,8 +13,7 @@ namespace Demo.PageObjects
         WebItemWrap btnSelectSlot => new WebItemWrap("//div[@class='calendar-pub__welcome']/child::div[@class='calendar-pub__welcome-bottom']/child::div", 
             "Кнопка выбрать слот на первой страице");
 
-        //Нужно поменять
-        //Xpath указан до элемента списка и сейчас мы вибираем просто первое доступное время
+        //Xpath указан до элемента списка и мы выбираем просто первое доступное время
         WebItemWrap btnSelectTime => new WebItemWrap("//div[@class = 'calendar-sharing__slot-item']", 
             "Время из списка доступного времени");
         
@@ -29,6 +28,9 @@ namespace Demo.PageObjects
 
         WebItemWrap btnCreateMeet => new WebItemWrap("//div[@class = 'calendar-pub-ui__btn']", "Кнопка 'Создать Встречу'");
 
+        WebItemWrap meetCreatedIcon => new WebItemWrap("//div[@class='calendar-sharing__form-result_icon --accept']",
+            "Значок галочки подтверждающий создание встречи");
+
         public WebSlotBookingPage(IWebDriver driver = default)
         {
             Driver = driver;
@@ -37,19 +39,20 @@ namespace Demo.PageObjects
         public WebSlotBookingPage SelectSlotTime()
         {
             btnSelectSlot.Click(Driver);
-            WaitersCore.Wait_s(5);//Ожидание появления выбора времени
+            btnSelectTime.WaitDisplayed(50, Driver);//Ожидание появления выбора времени
             btnSelectTime.Click(Driver);
-            WaitersCore.Wait_s(5);//Ожидание появления кнопки подтверждения
+            btnConfurmTime.WaitDisplayed(50, Driver);//Ожидание появления кнопки подтверждения
             btnConfurmTime.Click(Driver);
             return new WebSlotBookingPage(Driver);
         }
 
         public WebSlotBookingPage FillSlotData(string userName, string userEamil)
         {
-            WaitersCore.Wait_s(5);//Ожидание появления формы заполнения информации о пользователе
+            textAreaEmail.WaitDisplayed(50, Driver);//Ожидание появления формы заполнения информации о пользователе
             textAreaEmail.SendKeys(userEamil, Driver);
             textAreaName.SendKeys(userName, Driver);
             btnCreateMeet.Click(Driver);
+            meetCreatedIcon.WaitDisplayed(50, Driver);//Ожидание появления сообщения об успешном создании встречи
             return new WebSlotBookingPage(Driver);
         }
     }

@@ -35,7 +35,7 @@ namespace Demo.TestCases
             //Открываем страницу для создания слота
             new WebSlotBookingPage(driver2).
             //Выбираем время
-            SelectSlotTime()//До этого места все работает
+            SelectSlotTime()
             //Заполняем данные
             .FillSlotData(Name, Email);
             //Закрываем вкладку
