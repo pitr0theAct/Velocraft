@@ -20,9 +20,10 @@ namespace Demo.PageObjects
             return new SlotsMenu(Driver);
         }
 
-        public bool AssertMeeting(string userName, string userEamil)
+        public bool AssertMeeting(string userName)
         {
-            throw new NotImplementedException();
+            bool isMeetingexist = new WebItemWrap($"//span[contains(text(), '{userName}')]", "Текст о встрече на странице календаря").AssertTextContaining(userName, "Имя участника встречи некорректное");
+            return isMeetingexist;
         }
     }
 }

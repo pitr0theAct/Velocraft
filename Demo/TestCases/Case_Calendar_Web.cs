@@ -44,7 +44,7 @@ namespace Demo.TestCases
             //возвращаемся на страницу календаря
             homePage.SideMenu.OpenCalendar().
             //проверяем наличие события
-            AssertMeeting(Name, Email);
+            AssertMeeting(Name);
         }
     }
 
