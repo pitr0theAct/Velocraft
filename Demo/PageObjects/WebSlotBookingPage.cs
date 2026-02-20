@@ -6,6 +6,9 @@ using System.Globalization;
 
 namespace Demo.PageObjects
 {
+    /// <summary>
+    /// Страница для создания встречи внешним пользователем
+    /// </summary>
     public class WebSlotBookingPage
     {
         public IWebDriver Driver { get; }
@@ -36,6 +39,9 @@ namespace Demo.PageObjects
             Driver = driver;
         }
 
+        /// <summary>
+        /// Меню выбора времени для назначения встречи
+        /// </summary>
         public WebSlotBookingPage SelectSlotTime()
         {
             btnSelectSlot.Click(Driver);
@@ -46,6 +52,9 @@ namespace Demo.PageObjects
             return new WebSlotBookingPage(Driver);
         }
 
+        /// <summary>
+        /// Заполнение имени и почты внешнего пользователя
+        /// </summary>
         public WebSlotBookingPage FillSlotData(string userName, string userEamil)
         {
             textAreaEmail.WaitDisplayed(50, Driver);//Ожидание появления формы заполнения информации о пользователе

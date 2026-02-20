@@ -3,6 +3,9 @@ using Demo.SeleniumFramework;
 
 namespace Demo.PageObjects
 {
+    /// <summary>
+    /// Левое меню сайта
+    /// </summary>
     public class SiteLeftMenu
     {
         public IWebDriver Driver { get; }
@@ -68,6 +71,9 @@ namespace Demo.PageObjects
             return new FeedPage(Driver);
         }
 
+        /// <summary>
+        /// Открывает страницу календаря
+        /// </summary>
         public CalendarPage OpenCalendar()
         {
             var btnCalendar = new WebItemWrap("//li[@id='bx_left_menu_menu_calendar']", "Пункт левого меню Календарь");
