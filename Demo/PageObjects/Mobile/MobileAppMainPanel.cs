@@ -8,6 +8,8 @@ namespace Demo.PageObjects.Mobile
     /// </summary>
     public class MobileAppMainPanel
     {
+        MobileElement massangerTab => new MobileElement("//android.widget.FrameLayout[contains(@content-desc,'bottombar_tab_chats')]", "Таб 'Мессенджер'");
+
         public MobileAppTasksListPage SelectTasks()
         {
             var tasksTab = new MobileElement("//android.widget.TextView" +
@@ -16,6 +18,13 @@ namespace Demo.PageObjects.Mobile
             tasksTab.Click();
 
             return new MobileAppTasksListPage();
+        }
+
+        public MobileAppMassengerPage SelectMassenger()
+        {
+            //massangerTab.WaitDisplayed(50);
+            massangerTab.Click();
+            return new MobileAppMassengerPage();
         }
     }
 }

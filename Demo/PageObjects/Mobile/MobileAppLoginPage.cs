@@ -17,8 +17,7 @@ namespace Demo.PageObjects.Mobile
             var portalAddresField = new MobileElement("//android.widget.EditText" +
                 "[@content-desc='signInPortalInput']",
                 "Поле для ввода адреса портала");
-            var loginField = new MobileElement("//android.widget.EditText" +
-                "[@content-desc='signInPortalFormPhoneInput']",
+            var loginField = new MobileElement("//android.widget.EditText[@content-desc=\"signInPortalFormLoginInput\"]",
                 "Поле для ввода логина");
             var pwdField = new MobileElement("//android.widget.EditText" +
                 "[@content-desc='passwordFormInput']",

@@ -12,6 +12,8 @@ namespace Demo.TestCases
             var caseCollection = new List<ExecutableTestCase>();
             caseCollection.Add(
                 new ExecutableTestCase("Базовое создание задачи", mobileHomePage => CreateTask(mobileHomePage)));
+            caseCollection.Add(
+                new ExecutableTestCase("Создания коллабы в мессенджере", mobileHomePage => CreateCollaboration(mobileHomePage)));
             return caseCollection;
         }
 
@@ -30,5 +32,34 @@ namespace Demo.TestCases
                 Log.Error($"Задача с названием {taskName} не отображается");
             }
         }
+
+        void CreateCollaboration(MobileAppHomePage homePage)
+        {
+            // Подготовка
+            // Создаем уникальное название задачи
+            string collabName = "testCollab" + DateTime.Now.Ticks;
+            // Создаем уникальный текст задачи
+            string collabText = "textCollab" + DateTime.Now.Ticks;
+
+            // Все работает до моммента ввода названия (все очень медленно)
+
+            // Основная часть
+            // Переходим на вкладку мессенджер
+            homePage.TabsPanel.SelectMassenger().
+            // Нажимаем на плюсик
+            OpenCreationMenu().
+            //Выбираем коллабу
+            // Нажимаем на кнопку продолжить
+            // Вводим название, описание
+            FillCollaborationForm(collabName, collabText).
+            // устанвливаем модератора, и устанвливаем что приглашать участников может только модератор
+            FillCollaborationSettings().
+            // Создаем коллабу
+            CreateCollaboration();
+
+            //Ассерты
+            //Названия, описания, модератора, и отсутсвие возможности приглашать гостей
+        }
+
     }
 }
