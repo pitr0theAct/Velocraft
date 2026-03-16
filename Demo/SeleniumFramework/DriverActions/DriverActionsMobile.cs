@@ -14,7 +14,11 @@ namespace Demo.SeleniumFramework.DriverActions
         {
             var appiumOpts = new AppiumOptions();
             appiumOpts.PlatformName = "Android";
+            appiumOpts.DeviceName = "Pixel_3a_API_36_extension_level_19_x86_64";
             appiumOpts.AutomationName = "UiAutomator2";//Driver for automation
+            appiumOpts.AddAdditionalAppiumOption("appium:includePyramidElementTree", true);
+            appiumOpts.AddAdditionalAppiumOption("appium:enableMultiWindows", true);
+            appiumOpts.AddAdditionalAppiumOption("appium:ensureWebviewsHavePages", true);
             appiumOpts.App = "D:\\Downloads\\bitrix24_univer (1).apk";//Path to the application
             appiumOpts.AddAdditionalAppiumOption(MobileCapabilityType.Udid, "emulator-5554");//Unique device identifier
             appiumOpts.AddAdditionalAppiumOption(MobileCapabilityType.NoReset, false);//Do not reset application state

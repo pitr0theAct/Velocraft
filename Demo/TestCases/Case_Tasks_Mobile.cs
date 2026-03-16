@@ -5,6 +5,7 @@ using Demo.TestEntities;
 
 namespace Demo.TestCases
 {
+
     public class Case_Tasks_Mobile : TestCaseCollectionBuilder
     {
         protected override List<ExecutableTestCase> GetCases()
@@ -33,32 +34,31 @@ namespace Demo.TestCases
             }
         }
 
+        /// <summary>
+        /// Проверка создания коллаборации в мобильном приложении на android
+        /// </summary>
+        /// <param name="homePage"></param>
         void CreateCollaboration(MobileAppHomePage homePage)
         {
             // Подготовка
-            // Создаем уникальное название задачи
+            // Создаем уникальное название и текст коллабы
             string collabName = "testCollab" + DateTime.Now.Ticks;
-            // Создаем уникальный текст задачи
             string collabText = "textCollab" + DateTime.Now.Ticks;
+            var testCollab = new B24CollaborationEntity(collabName, collabText);
+            // Добавляем пользователя котрый будет модератором
+            var testModerator = ExecutableTestCase.RunningTestCase.CreatePortalTestUser(false);
 
-            // Все работает до моммента ввода названия (все очень медленно)
-
-            // Основная часть
             // Переходим на вкладку мессенджер
             homePage.TabsPanel.SelectMassenger().
             // Нажимаем на плюсик
-            OpenCreationMenu().
-            //Выбираем коллабу
-            // Нажимаем на кнопку продолжить
-            // Вводим название, описание
-            FillCollaborationForm(collabName, collabText).
-            // устанвливаем модератора, и устанвливаем что приглашать участников может только модератор
-            FillCollaborationSettings().
+                OpenCreationMenu().
+            // Выбираем коллабу, вводим название и описание
+                FillCollaborationForm(testCollab).
+            // Устанвливаем модератора, отключаем возможность приглашения гостей
+                FillCollaborationSettings(testModerator).
             // Создаем коллабу
-            CreateCollaboration();
-
-            //Ассерты
-            //Названия, описания, модератора, и отсутсвие возможности приглашать гостей
+                CreateCollaboration();
+            // Проверяем наличие коллабы с названием и описанием, также все заданные права
         }
 
     }

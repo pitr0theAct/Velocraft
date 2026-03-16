@@ -20,9 +20,12 @@ namespace Demo.PageObjects.Mobile
             return new MobileAppTasksListPage();
         }
 
+        /// <summary>
+        /// Переходит во вкладку мессенджер из нижнего меню приложения
+        /// </summary>
+        /// <returns></returns>
         public MobileAppMassengerPage SelectMassenger()
         {
-            //massangerTab.WaitDisplayed(50);
             massangerTab.Click();
             return new MobileAppMassengerPage();
         }
