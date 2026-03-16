@@ -2,6 +2,7 @@ using Demo.BaseFramework;
 using Demo.BaseFramework.LogTools;
 using Demo.PageObjects.Mobile;
 using Demo.TestEntities;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Demo.TestCases
 {
@@ -49,7 +50,7 @@ namespace Demo.TestCases
             var testModerator = ExecutableTestCase.RunningTestCase.CreatePortalTestUser(false);
 
             // Переходим на вкладку мессенджер
-            homePage.TabsPanel.SelectMassenger().
+            var CreatedCollaboration = homePage.TabsPanel.SelectMassenger().
             // Нажимаем на плюсик
                 OpenCreationMenu().
             // Выбираем коллабу, вводим название и описание
@@ -58,8 +59,20 @@ namespace Demo.TestCases
                 FillCollaborationSettings(testModerator).
             // Создаем коллабу
                 CreateCollaboration();
-            // Проверяем наличие коллабы с названием и описанием, также все заданные права
-        }
 
+            // Проверяем название коллабы
+            bool isCollaborationNamePresent = CreatedCollaboration.IsCollaborationNameDisplayed(collabName);
+            if (!isCollaborationNamePresent)
+            {
+                Log.Error($"Коллаба с названием {collabName} не отображается");
+            }
+
+            // Проверяем описание коллабы
+            bool isCollaborationDescriptionPresent = CreatedCollaboration.IsCollaborationDescriptionDisplayed(collabText);
+            if (!isCollaborationDescriptionPresent)
+            {
+                Log.Error($"Сообщение с описанием {collabText} не отображается");
+            }
+        }
     }
 }
