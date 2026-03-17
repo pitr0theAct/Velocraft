@@ -37,7 +37,7 @@ namespace Demo.PageObjects.Mobile
         MobileElement backButton => new MobileElement("(//android.widget.FrameLayout[@content-desc='button_back'])[3]", "Кнопка назад");
         
         MobileElement createCollaboration => new MobileElement("//android.view.ViewGroup[@content-desc=\"CollabCreate_IntroScreen_Button\"]", "Кнопка создать коллаборацию");
-        MobileElement dropHint => new MobileElement("//android.view.ViewGroup[@content-desc='selected_tab']",
+        MobileElement dropHint => new MobileElement("//android.widget.FrameLayout[@content-desc=\"button_more\"]",
             "Свободное место на экране для закрытия подсказки");
         #endregion
 

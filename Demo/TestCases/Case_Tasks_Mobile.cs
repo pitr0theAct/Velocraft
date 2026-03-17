@@ -60,18 +60,25 @@ namespace Demo.TestCases
             // Создаем коллабу
                 CreateCollaboration();
 
-            // Проверяем название коллабы
-            bool isCollaborationNamePresent = CreatedCollaboration.IsCollaborationNameDisplayed(collabName);
-            if (!isCollaborationNamePresent)
-            {
-                Log.Error($"Коллаба с названием {collabName} не отображается");
-            }
-
             // Проверяем описание коллабы
             bool isCollaborationDescriptionPresent = CreatedCollaboration.IsCollaborationDescriptionDisplayed(collabText);
             if (!isCollaborationDescriptionPresent)
             {
                 Log.Error($"Сообщение с описанием {collabText} не отображается");
+            }
+
+            //Проверяем прглашение модератора в коллабу
+            bool isModeratorDisplayed = CreatedCollaboration.IsModeratorInvited(testModerator);
+            if (!isModeratorDisplayed)
+            {
+                Log.Error($"Сообщение о приглашении модератора '{testModerator.Name}' не отображается в чате");
+            }
+
+            // Проверяем название коллабы
+            bool isCollaborationNamePresent = CreatedCollaboration.IsCollaborationNameDisplayed(collabName);
+            if (!isCollaborationNamePresent)
+            {
+                Log.Error($"Коллаба с названием {collabName} не отображается");
             }
         }
     }

@@ -7,6 +7,7 @@ namespace Demo.PageObjects.Mobile
 {
     public class MobileAppCollabChat
     {
+
         /// <summary>
         /// Проверяет отображение названия коллабы
         /// </summary>
@@ -14,12 +15,12 @@ namespace Demo.PageObjects.Mobile
         /// <returns></returns>
         public bool IsCollaborationNameDisplayed(string name)
         {
-            var collabTitle = new MobileElement($"//android.widget.TextView[contains(@content-desc,'{name.Substring(0,22)}')]",
+            var collabTitle = new MobileElement($"//android.widget.TextView[@content-desc='{name}')]",
                 $"Заголовок коллабы с текстом {name}");
 
             bool isNameDisplayed = WaitersCore.WaitForConditionReached(
                 () => collabTitle.WaitDisplayed(50), 2, 50,
-                $"Ожидание появления коллабы '{name}' в верхней части");
+                $"Ожидание появления названия коллабы '{name}' в чате");
 
             return isNameDisplayed;
         }
@@ -39,6 +40,24 @@ namespace Demo.PageObjects.Mobile
                 $"Ожидание появления сообщения '{description}' в чате коллабы");
 
             return isDescriptionDesplyed;
+        }
+
+        /// <summary>
+        /// Проверяет отображение сообщения о приглашении модератора
+        /// </summary>
+        /// <param name="testModerator"></param>
+        /// <returns></returns>
+        public bool IsModeratorInvited(User testModerator)
+        {
+            var mentionMassage = new MobileElement($"//android.widget.TextView[@content-desc=\"message_with_mention\" " +
+                $"and contains(@text, \"{testModerator.Name}\")]", $"Сообщение в чате о приглашении модератора '{testModerator.Name}'");
+
+            bool isModeratorDisplayed = WaitersCore.WaitForConditionReached(
+                () => mentionMassage.WaitDisplayed(50), 2, 50,
+                $"Ожидание появления соббщения о приглашении модератора '{testModerator.Name}'");
+
+            return isModeratorDisplayed;
+
         }
     }
 }
