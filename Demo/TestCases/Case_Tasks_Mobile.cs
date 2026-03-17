@@ -15,7 +15,7 @@ namespace Demo.TestCases
             caseCollection.Add(
                 new ExecutableTestCase("Базовое создание задачи", mobileHomePage => CreateTask(mobileHomePage)));
             caseCollection.Add(
-                new ExecutableTestCase("Создания коллабы в мессенджере", mobileHomePage => CreateCollaboration(mobileHomePage)));
+                new ExecutableTestCase("Создание коллабы в мессенджере", mobileHomePage => CreateCollaboration(mobileHomePage)));
             return caseCollection;
         }
 
@@ -61,7 +61,7 @@ namespace Demo.TestCases
                 CreateCollaboration();
 
             // Проверяем описание коллабы
-            bool isCollaborationDescriptionPresent = CreatedCollaboration.IsCollaborationDescriptionDisplayed(collabText);
+            bool isCollaborationDescriptionPresent = CreatedCollaboration.IsCollaborationDescriptionDisplayed(testCollab);
             if (!isCollaborationDescriptionPresent)
             {
                 Log.Error($"Сообщение с описанием {collabText} не отображается");

@@ -61,6 +61,7 @@ namespace Demo.PageObjects.Mobile
         /// <returns></returns>
         public MobileAppMassengerPage OpenCreationMenu()
         {
+            createButton.WaitDisplayed(50);
             createButton.Click();
             return new MobileAppMassengerPage();
         }
@@ -91,6 +92,7 @@ namespace Demo.PageObjects.Mobile
         public MobileAppCollabChat CreateCollaboration()
         {
             backButton.Click();
+            createCollaboration.WaitDisplayed(50);
             createCollaboration.Click();
             dropHint.Click();
             return new MobileAppCollabChat();

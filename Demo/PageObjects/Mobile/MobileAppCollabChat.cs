@@ -7,37 +7,46 @@ namespace Demo.PageObjects.Mobile
 {
     public class MobileAppCollabChat
     {
+        #region Elements
+        MobileElement buttonBack => new MobileElement("//android.widget.FrameLayout[@content-desc=\"button_back\"]",
+            "Кнопка 'назад' для выхода в чаты");
+        MobileElement notificationButton => new MobileElement("//android.widget.TextView[@text=\"Уведомления\"]", "Кнопка уведомления");
+        MobileElement chennelsButton => new MobileElement("//android.widget.TextView[@text=\"Каналы\"]", "Кнопка каналы");
+        MobileElement collabButton => new MobileElement("//android.widget.TextView[@text=\"Коллабы\"]", "Кнопка коллабы");
+        MobileElement collabInList(string collabName) => new MobileElement($"//android.widget.TextView[contains(@content-desc,\"list-item\") and @text=\"{collabName}\"]",
+            $"Заголовок коллабы '{collabName}' в списке коллаб");
+        #endregion
 
         /// <summary>
         /// Проверяет отображение названия коллабы
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="collabName"></param>
         /// <returns></returns>
-        public bool IsCollaborationNameDisplayed(string name)
+        public bool IsCollaborationNameDisplayed(string collabName)
         {
-            var collabTitle = new MobileElement($"//android.widget.TextView[@content-desc='{name}')]",
-                $"Заголовок коллабы с текстом {name}");
+            buttonBack.Click();
+            notificationButton.WaitDisplayed(50);
+            notificationButton.Click();
+            chennelsButton.Click();
+            collabButton.WaitDisplayed(50);
+            collabButton.Click();
 
-            bool isNameDisplayed = WaitersCore.WaitForConditionReached(
-                () => collabTitle.WaitDisplayed(50), 2, 50,
-                $"Ожидание появления названия коллабы '{name}' в чате");
-
-            return isNameDisplayed;
+            return collabInList(collabName).WaitDisplayed(50);
         }
 
         /// <summary>
         /// Проверяет отображение сообщения с описанием коллабы
         /// </summary>
-        /// <param name="description"></param>
+        /// <param name="collab"></param>
         /// <returns></returns>
-        public bool IsCollaborationDescriptionDisplayed(string description)
+        public bool IsCollaborationDescriptionDisplayed(B24CollaborationEntity collab)
         {
-            var collabText = new MobileElement($"//android.widget.TextView[@text='{description}']",
-               $"Сообщение в чате коллабы с текстом '{description}'");
+            var collabText = new MobileElement($"//android.widget.TextView[@text='{collab.Description}']",
+               $"Сообщение в чате коллабы с текстом '{collab.Description}'");
 
             bool isDescriptionDesplyed = WaitersCore.WaitForConditionReached(
                 () => collabText.WaitDisplayed(50), 2, 50,
-                $"Ожидание появления сообщения '{description}' в чате коллабы");
+                $"Ожидание появления сообщения '{collab.Description}' в чате коллабы");
 
             return isDescriptionDesplyed;
         }

@@ -26,6 +26,7 @@ namespace Demo.PageObjects.Mobile
         /// <returns></returns>
         public MobileAppMassengerPage SelectMassenger()
         {
+            massangerTab.WaitDisplayed(50);
             massangerTab.Click();
             return new MobileAppMassengerPage();
         }
