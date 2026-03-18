@@ -1,9 +1,10 @@
-﻿using Demo.BaseFramework.LogTools;
+﻿using Demo.BaseFramework;
+using Demo.BaseFramework.LogTools;
 using Demo.PageObjects;
-using Demo.SeleniumFramework.DriverActions;
-using Demo.BaseFramework;
 using Demo.SeleniumFramework;
+using Demo.SeleniumFramework.DriverActions;
 using Demo.TestEntities;
+using System.Data;
 
 namespace Demo.TestCases
 {
@@ -19,7 +20,44 @@ namespace Demo.TestCases
                     (WebHomePage homePage) => throw new NotImplementedException("Тест редактирования задачи не реализован")),
                 new ExecutableTestCase("Базовое удаление задачи",
                     (WebHomePage homePage) => { Thread.Sleep(5000); Log.Error("some error"); }),
+                new ExecutableTestCase("Создание новой роли в задачах",
+                    homePage => CreateNewRole(homePage)),
             };
+        }
+
+        public static void CreateNewRole(WebHomePage homePage)
+        {
+            // Подготовка
+            // Добавление пользователя, которому выдаем новую роль
+            var roleTester = ExecutableTestCase.RunningTestCase.CreatePortalTestUser(false);
+            // Создание уникального названия роли
+            string testRoleName = HelperMethodsCore.GetDateTimeSalt() + "_roleName";
+
+            // Основная часть
+            homePage.SideMenu
+            // Открываем вкладку Задачи и проекты
+                .OpenTasks()
+            // Нажимаем Ещё
+                .ExpandMoreOptions()
+            // Выбираем Права доступа
+                .OpenTaskPermissionsForm()
+            // Создать роль
+                .CreateNewRole()
+            // Вводим название роли
+                .FillRoleName(testRoleName)
+            // Сохраняем роль
+                .SaveRole()
+            // Открываем меню добавления пользователя
+                .OpenRoleManagingMenu(testRoleName)
+            // Выбираем пользователя на роль
+                .AddRoleToUser(roleTester)
+            // Выдать права и ограничения
+                .SelectRolePermissions() // Нужно добавить реализацию
+            // Нажать кнопку сохранить
+                .SaveRole();
+
+            // Ассерты
+            // Проверяем наличие выданных прав и ограничений
         }
 
         public static void CreateTask(WebHomePage homePage)
