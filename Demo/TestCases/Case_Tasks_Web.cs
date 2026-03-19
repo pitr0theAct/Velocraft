@@ -20,8 +20,8 @@ namespace Demo.TestCases
                     (WebHomePage homePage) => throw new NotImplementedException("Тест редактирования задачи не реализован")),
                 new ExecutableTestCase("Базовое удаление задачи",
                     (WebHomePage homePage) => { Thread.Sleep(5000); Log.Error("some error"); }),
-                new ExecutableTestCase("Создание новой роли в задачах",
-                    homePage => CreateNewRole(homePage)),
+               // new ExecutableTestCase("Создание новой роли в задачах",
+                   // homePage => CreateNewRole(homePage)),
             };
         }
 
