@@ -13,6 +13,11 @@ namespace Demo.PageObjects.CRM_Web
         WebItemWrap changeDealStateButton => new WebItemWrap($"//span[text()='Сменить стадию']", "Кнопка сменить стадию");
         WebItemWrap newDealState => new WebItemWrap("//span[@class='menu-popup-item-text' and text()='В работе']",
             "Кнопка подготовка документов в попапе");
+        WebItemWrap settingsMainButton => new WebItemWrap("//span[text()='Настройки' and @class = 'main-buttons-item-text-box']",
+            "Кнопка настроек в основном менб CRM");
+        WebItemWrap accessRightsButton => new WebItemWrap("//span[text()='Права доступа' and @class = 'main-buttons-item-text-box']",
+            "Кнопка Права доступа в попапе");
+        WebItemWrap crmButton => new WebItemWrap("//span[@class='main-buttons-item-text-box' and text()='CRM']", "Кнопка CRM в попапе");
 
         public CRMBasePage(IWebDriver driver = default)
         {
@@ -30,11 +35,22 @@ namespace Demo.PageObjects.CRM_Web
 
         public CRMBasePage ChangeDealStatus(string dealName)
         {
+            dealInCanban(dealName).WaitDisplayed(50);
             dealInCanban(dealName).Click();
             changeDealStateButton.Click();
             newDealState.WaitDisplayed(50);
             newDealState.Click();
             return new CRMBasePage();
+        }
+
+        public CRMAccessRightsPage OpenCRMAccessRights()
+        {
+            settingsMainButton.Hover();
+            accessRightsButton.Hover();
+            accessRightsButton.Click();
+            crmButton.Hover();
+            crmButton.Click();
+            return new CRMAccessRightsPage();
         }
     }
 

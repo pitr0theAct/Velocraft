@@ -34,7 +34,7 @@ namespace Demo.TestCases
             // Добавить пользователя на протал
             var testResponsible = ExecutableTestCase.RunningTestCase.CreatePortalTestUser(false);
             // Уникальная добавка к названия дела робота
-            string robotDealName = HelperMethodsCore.GetDateTimeSalt();
+            string robotDealName = "_" + HelperMethodsCore.GetDateTimeSalt();
 
             // Основная часть
             homePage.SideMenu
@@ -53,25 +53,26 @@ namespace Demo.TestCases
             // Закрыть Вкладку
                 .CloseRobotPage()
             // Перенести дело в нужную вкладку
-                .ChangeDealStatus(dealName);
-
+                .ChangeDealStatus(dealName)
             // Перед ассретами нужно дать пользователю права на доступ к CRM
-            // Настройки на странице CRM
-            // Права доступа
-            // CRM
-            // Добавить право доступа
-            // Пользователи
-            // В поиск вбиваем нужного пользователя
-            // Выбрать
-            //Выбираем должность
+            // Открыть права доступа на старнице CRM
+                .OpenCRMAccessRights()
+            // Открыть страницу настройки прав
+                .OpenRightsManagingPage()
+            // Выдать права
+                .AddUserRights(testResponsible)
             // Сохранить
+                .SaveUserRights();
 
             // Ассерты
-            // Авторизироватся под другим пользователем и проверить наличе дела
+            // Авторизироватся под другим пользователем
             var driver2 = DriverActionsWeb.CreateNewDriver();
             var homePage2 = new WebLoginPage(ExecutableTestCase.RunningTestCase.TestPortal, driver2).Login(testResponsible);
             homePage2.SideMenu
-                .OpenCalendar();
+            // Перейти в CRM 
+                .OpenCRM();
+            // Нажать на имя сделки
+            // Проверить название сделки и название дела созданного роботом
         }
     }
 }
