@@ -5,8 +5,12 @@ using OpenQA.Selenium.Internal;
 
 namespace Demo.PageObjects.CRM_Web
 {
+    /// <summary>
+    /// Базовая страница CRM
+    /// </summary>
     public class CRMBasePage
     {
+        #region Elements
         WebItemWrap robotButton => new WebItemWrap("//a[contains(@class, 'crm-robot-btn')]", "Кнопка 'Роботы'");
         WebItemWrap robotFrame => new WebItemWrap("//iframe[@class='side-panel-iframe']", "Фрейм Роботы"); // Поменять  xpath
         WebItemWrap dealInCanban(string dealName) => new WebItemWrap($"//span[text()='{dealName}']/ancestor::div[@class='main-kanban-item']", 
@@ -25,6 +29,7 @@ namespace Demo.PageObjects.CRM_Web
 
         WebItemWrap hintPopUp => new WebItemWrap("//div[@class='ui-tour-popup  ui-tour-popup-events']", "Попап с подсказкой");
         WebItemWrap closeHintButton => new WebItemWrap("//span[@class='popup-window-close-icon']", "Кнопка закрыть попап");
+        #endregion
 
         public CRMBasePage(IWebDriver driver = default)
         {
@@ -33,6 +38,10 @@ namespace Demo.PageObjects.CRM_Web
 
         public IWebDriver Driver { get; }
 
+        /// <summary>
+        /// Открывает страницу Роботы
+        /// </summary>
+        /// <returns></returns>
         public RobotPage OpenRobotPage()
         {
             robotButton.Click();
@@ -40,6 +49,10 @@ namespace Demo.PageObjects.CRM_Web
             return new RobotPage();
         }
 
+        /// <summary>
+        /// Закрывает подсказку, если она есть
+        /// </summary>
+        /// <returns></returns>
         public CRMBasePage CloseHintIfDisplayed()
         {
             if (hintPopUp.WaitDisplayed(5, Driver))
@@ -49,6 +62,11 @@ namespace Demo.PageObjects.CRM_Web
             return new CRMBasePage(Driver);
         }
 
+        /// <summary>
+        /// Меняет статус дела
+        /// </summary>
+        /// <param name="dealName"></param>
+        /// <returns></returns>
         public CRMBasePage ChangeDealStatus(string dealName)
         {
             CloseHintIfDisplayed();
@@ -59,7 +77,11 @@ namespace Demo.PageObjects.CRM_Web
             newDealState.Click();
             return new CRMBasePage();
         }
-
+        
+        /// <summary>
+        /// Открывает права доступа CRM
+        /// </summary>
+        /// <returns></returns>
         public CRMAccessRightsPage OpenCRMAccessRights()
         {
             settingsMainButton.Hover();
@@ -70,6 +92,11 @@ namespace Demo.PageObjects.CRM_Web
             return new CRMAccessRightsPage();
         }
 
+        /// <summary>
+        /// Открывает страницу сделки
+        /// </summary>
+        /// <param name="dealName"></param>
+        /// <returns></returns>
         public DealDetailsPage OpenDealDetails(string dealName)
         {
             dealNameInCanban(dealName).WaitDisplayed(50, Driver);

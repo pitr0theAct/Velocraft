@@ -4,8 +4,12 @@ using OpenQA.Selenium;
 
 namespace Demo.PageObjects.CRM_Web
 {
+    /// <summary>
+    /// Страница создания робота
+    /// </summary>
     public class RobotCreationPage
     {
+        #region Elements
         WebItemWrap deadDeadLine => new WebItemWrap("//input[@name='deadline']", "Поле для выбора дедлайна дела");
         WebItemWrap currentTimeOption => new WebItemWrap("//label[@class='bizproc-automation-popup-select__wrapper --first ui-ctl ui-ctl-radio ui-ctl-w100']",
             "Опция Текущее время");
@@ -17,6 +21,7 @@ namespace Demo.PageObjects.CRM_Web
             "Ответсвенный");
         WebItemWrap saveRobotSettings => new WebItemWrap("//div[@class='popup-window-buttons']/child::button[@class='ui-btn ui-btn-success']",
             "Кнопка сохранить");
+        #endregion
 
         public RobotCreationPage(IWebDriver driver = default)
         {
@@ -25,6 +30,12 @@ namespace Demo.PageObjects.CRM_Web
 
         public IWebDriver Driver { get; }
 
+        /// <summary>
+        /// Заполнитьь форму создания робота
+        /// </summary>
+        /// <param name="dealName"></param>
+        /// <param name="responsible"></param>
+        /// <returns></returns>
         public RobotPage FillRobotCreationForm(string dealName, User responsible)
         {
             deadDeadLine.Click();

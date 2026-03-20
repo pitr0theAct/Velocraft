@@ -4,8 +4,12 @@ using OpenQA.Selenium;
 
 namespace Demo.PageObjects.CRM_Web
 {
+    /// <summary>
+    /// Страница Роботы
+    /// </summary>
     public class RobotPage
     {
+        #region Elements
         WebItemWrap addRobotInProcessStage => new WebItemWrap("//div[@data-role='add-button-container' and @data-status-id='EXECUTING']",
             "Кнопка плюс под В работе");
         WebItemWrap saveButton => new WebItemWrap("//button[@class='ui-btn ui-btn-success']", "Кнопка сохранить");
@@ -14,6 +18,7 @@ namespace Demo.PageObjects.CRM_Web
         WebItemWrap deleteRobotButton(User user) => new WebItemWrap($"//a[contains(text(), '{user.NameLastName}')]" +
             $"/ancestor::div[contains(@class, 'bizproc-automation-robot')]" +
             $"//span[contains(@class, 'bizproc-automation-robot-btn-delete')]", "Кнопка удаления робота");
+        #endregion
 
         public RobotPage(IWebDriver driver = default)
         {
@@ -22,18 +27,30 @@ namespace Demo.PageObjects.CRM_Web
 
         public IWebDriver Driver { get; }
 
+        /// <summary>
+        /// Открывает страницу создания робота
+        /// </summary>
+        /// <returns></returns>
         public RobotActionPage OpenRobotCreationPage()
         {
             addRobotInProcessStage.Click();
             return new RobotActionPage();
         }
 
+        /// <summary>
+        /// Сохранить настройки робота
+        /// </summary>
+        /// <returns></returns>
         public RobotPage SaveRobotSettings()
         {
             saveButton.Click();
             return new RobotPage();
         }
 
+        /// <summary>
+        /// Закрить страницу Роботы
+        /// </summary>
+        /// <returns></returns>
         public CRMBasePage CloseRobotPage()
         {
             closeButton.SwitchToDefaultContent();
@@ -41,6 +58,11 @@ namespace Demo.PageObjects.CRM_Web
             return new CRMBasePage();
         }
 
+        /// <summary>
+        /// Удалить робота
+        /// </summary>
+        /// <param name="responsible"></param>
+        /// <returns></returns>
         public RobotPage DeleteRobot(User responsible)
         {
             deleteRobotButton(responsible).Click();

@@ -5,12 +5,17 @@ using OpenQA.Selenium;
 
 namespace Demo.PageObjects.CRM_Web
 {
+    /// <summary>
+    /// Детальная страница сделки в CRM
+    /// </summary>
     public class DealDetailsPage
     {
+        #region Elements
         WebItemWrap hintPopUp => new WebItemWrap("//div[@class='ui-tour-popup  ui-tour-popup-events']", "Попап с подсказкой на странице дела");
         WebItemWrap closeHintButton => new WebItemWrap("//span[@class='popup-window-close-icon']", "Кнопка закрть в попапе");
         WebItemWrap doneButton(User user) => new WebItemWrap($"",
             "Кнопка выполнено в деле созданном робатом");
+        #endregion
 
         public DealDetailsPage(IWebDriver driver = default)
         {
@@ -19,6 +24,10 @@ namespace Demo.PageObjects.CRM_Web
 
         public IWebDriver Driver { get; }
 
+        /// <summary>
+        /// Закрыть подсказку, если она есть
+        /// </summary>
+        /// <returns></returns>
         public DealDetailsPage CloseHintIfDisplayed()
         {
             if (hintPopUp.WaitDisplayed(5, Driver))
@@ -28,6 +37,11 @@ namespace Demo.PageObjects.CRM_Web
             return new DealDetailsPage(Driver);
         }
 
+        /// <summary>
+        /// Проверка наличия дела созданного роботом
+        /// </summary>
+        /// <param name="robotDealName"></param>
+        /// <returns></returns>
         public bool AssertRobotDeal(string robotDealName)
         {
             bool isRobotDealExist = new WebItemWrap($"//span[contains(@title, '{robotDealName}') and @class='crm-timeline__card-title']", "Название дела созданного роботом")
@@ -35,6 +49,11 @@ namespace Demo.PageObjects.CRM_Web
             return isRobotDealExist;
         }
 
+        /// <summary>
+        /// Проверка пользователя которому робот поручил дело
+        /// </summary>
+        /// <param name="testResponsible"></param>
+        /// <returns></returns>
         public bool AssertResposible(User testResponsible)
         {
             CloseHintIfDisplayed();

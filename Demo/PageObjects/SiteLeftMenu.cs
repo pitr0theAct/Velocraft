@@ -82,6 +82,9 @@ namespace Demo.PageObjects
             return new CalendarPage(Driver);
         }
 
+        /// <summary>
+        /// Открывает страницу CRM
+        /// </summary>
         internal CRMBasePage OpenCRM()
         {
             var btnCRM = new WebItemWrap("//li[@id='bx_left_menu_menu_crm_favorite']", "Пункт левого меню CRM");
