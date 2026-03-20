@@ -1,4 +1,5 @@
 ﻿using Demo.BaseFramework;
+using Demo.BaseFramework.LogTools;
 using Demo.BaseFramework.ScriptInterraction;
 using Demo.PageObjects;
 using Demo.SeleniumFramework.DriverActions;
@@ -43,7 +44,7 @@ namespace Demo.TestCases
             // Роботы
                 .OpenRobotPage()
             // Создать
-                .OpenRobotCreationPage() // Нужно добавить обход подсказки
+                .OpenRobotCreationPage()
             // Выбираем Запланировать дело
                 .SelectRobotAction()
             // Заполняем данные и сохраняем
@@ -68,11 +69,34 @@ namespace Demo.TestCases
             // Авторизироватся под другим пользователем
             var driver2 = DriverActionsWeb.CreateNewDriver();
             var homePage2 = new WebLoginPage(ExecutableTestCase.RunningTestCase.TestPortal, driver2).Login(testResponsible);
-            homePage2.SideMenu
+            var dealDetailsPage = homePage2.SideMenu
             // Перейти в CRM 
-                .OpenCRM();
+                .OpenCRM()
             // Нажать на имя сделки
-            // Проверить название сделки и название дела созданного роботом
+                .OpenDealDetails(dealName); 
+
+            // Проверить название дела созданного роботом
+            dealDetailsPage.AssertRobotDeal(robotDealName);
+
+            // Проверить пользователя отвественного за дело созданное роботом
+            bool isResponsiblePresent = dealDetailsPage.AssertResposible(testResponsible);
+            if (!isResponsiblePresent)
+            {
+                Log.Error($"Ответсвенный за дело созданное роботом {testResponsible.NameLastName} " +
+                    $"не отображается на детальной странице сделки в CRM");
+            }
+
+            // Постусловия
+            // Закрываем второй драйвер
+            driver2.Close();
+
+            homePage.SideMenu
+            // CRM
+                .OpenCRM()
+            // Роботы
+                .OpenRobotPage()
+            // Удаляем созданного робота
+                .DeleteRobot(testResponsible);
         }
     }
 }
