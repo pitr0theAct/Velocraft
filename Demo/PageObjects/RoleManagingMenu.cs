@@ -6,7 +6,7 @@ namespace Demo.PageObjects
 {
     public class RoleManagingMenu
     {
-        WebItemWrap roleTester(User user) => new WebItemWrap($"//div[text()='{user.NameLastName}']",
+        WebItemWrap roleTester(User user) => new WebItemWrap($"(//div[text()='{user.NameLastName}'])[2]",
             "Пользователь созданны для проверки роли");
         WebItemWrap closeButton => new WebItemWrap("//span[@class='popup-window-close-icon']", "Кнопка Закрыть в окне попапа");
         WebItemWrap searchButton => new WebItemWrap("//a[@data-code='search']", "Кнопка Поиск");

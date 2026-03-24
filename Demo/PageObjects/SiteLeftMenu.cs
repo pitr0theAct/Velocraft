@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using Demo.SeleniumFramework;
+using Demo.PageObjects.CRM_Web;
 
 namespace Demo.PageObjects
 {
@@ -79,6 +80,16 @@ namespace Demo.PageObjects
             var btnCalendar = new WebItemWrap("//li[@id='bx_left_menu_menu_calendar']", "Пункт левого меню Календарь");
             ClickMenuItem(btnCalendar);
             return new CalendarPage(Driver);
+        }
+
+        /// <summary>
+        /// Открывает страницу CRM
+        /// </summary>
+        internal CRMBasePage OpenCRM()
+        {
+            var btnCRM = new WebItemWrap("//li[@id='bx_left_menu_menu_crm_favorite']", "Пункт левого меню CRM");
+            ClickMenuItem(btnCRM);
+            return new CRMBasePage(Driver);
         }
     }
 }
