@@ -2,6 +2,7 @@
 using Demo.SeleniumFramework;
 using Demo.TestEntities;
 using OpenQA.Selenium;
+using System.Xml.Linq;
 
 namespace Demo.PageObjects.CRM_Web
 {
@@ -13,8 +14,9 @@ namespace Demo.PageObjects.CRM_Web
         #region Elements
         WebItemWrap hintPopUp => new WebItemWrap("//div[@class='ui-tour-popup  ui-tour-popup-events']", "Попап с подсказкой на странице дела");
         WebItemWrap closeHintButton => new WebItemWrap("//span[@class='popup-window-close-icon']", "Кнопка закрть в попапе");
-        WebItemWrap doneButton(User user) => new WebItemWrap($"",
-            "Кнопка выполнено в деле созданном робатом");
+        WebItemWrap robotCreatedDealName(string name) => new WebItemWrap($"//span[contains(@title, '{name}') and @class='crm-timeline__card-title']",
+            "Название дела созданного роботом");
+        WebItemWrap responsibleIcon(User user) => new WebItemWrap($"//a[contains(@title,'{user.NameLastName}')]", "Имя ответсвенного за дело созданное роботом");
         #endregion
 
         public DealDetailsPage(IWebDriver driver = default)
@@ -44,8 +46,7 @@ namespace Demo.PageObjects.CRM_Web
         /// <returns></returns>
         public bool AssertRobotDeal(string robotDealName)
         {
-            bool isRobotDealExist = new WebItemWrap($"//span[contains(@title, '{robotDealName}') and @class='crm-timeline__card-title']", "Название дела созданного роботом")
-                .AssertTextContaining(robotDealName, "Название дела созданного роботом некорректное", Driver);
+            bool isRobotDealExist = robotCreatedDealName(robotDealName).AssertTextContaining(robotDealName, "Название дела созданного роботом некорректное", Driver);
             return isRobotDealExist;
         }
 
@@ -57,8 +58,7 @@ namespace Demo.PageObjects.CRM_Web
         public bool AssertResposible(User testResponsible)
         {
             CloseHintIfDisplayed();
-            WebItemWrap responsibleIcon = new WebItemWrap($"//a[contains(@title,'{testResponsible.NameLastName}')]", "Имя ответсвенного за дело созданное роботом");
-            bool isRosponsibleDisplyed = responsibleIcon.WaitDisplayed(50, Driver);
+            bool isRosponsibleDisplyed = responsibleIcon(testResponsible).WaitDisplayed(50, Driver);
             return isRosponsibleDisplyed;
         }
     }
