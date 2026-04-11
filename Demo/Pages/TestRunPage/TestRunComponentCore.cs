@@ -46,14 +46,6 @@ namespace Demo.Pages.TestRunPage
 
             if (string.IsNullOrEmpty(PortalUri) || !Uri.TryCreate(PortalUri, UriKind.Absolute, out portalUri))
                 PortalUriBgColor = HelperMethodsCore.ConvertToHex(Color.Red);
-            else if (string.IsNullOrEmpty(PortalUser.Login) || !IsEmail(PortalUser.Login))
-            {
-                LoginBgColor = HelperMethodsCore.ConvertToHex(Color.Red);
-                if (!IsEmail(PortalUser.Login))
-                    DisplayedError = "Логин должен быть email-ом";
-            }
-            else if (string.IsNullOrEmpty(PortalUser.Password))
-                PwdBgColor = HelperMethodsCore.ConvertToHex(Color.Red);
             else
             {
                 File.WriteAllText(configFileName, $"{PortalUri}\r\n{PortalUser.Login}\r\n{PortalUser.Password}");
