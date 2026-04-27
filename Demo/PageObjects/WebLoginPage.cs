@@ -17,7 +17,7 @@ namespace Demo.PageObjects
         public WebHomePage Login(User admin)
         {
             DriverActionsWeb.OpenUri(portalData.Adress, Driver);
-            var loginField = new WebItemWrap("//input[@id='login' or @name='USER_LOGIN']",
+            /*var loginField = new WebItemWrap("//input[@id='login' or @name='USER_LOGIN']",
                 "Поле для ввода логина");
             var pwdField = new WebItemWrap("//input[@id='password' or @name='USER_PASSWORD']",
                 "Поле для ввода пароля");
@@ -25,7 +25,7 @@ namespace Demo.PageObjects
             if (!pwdField.WaitDisplayed(1, Driver))
                 loginField.SendKeys(Keys.Enter, Driver);
             pwdField.SendKeys(admin.Password, Driver, logInputtedText: false);
-            pwdField.SendKeys(Keys.Enter, Driver);
+            pwdField.SendKeys(Keys.Enter, Driver);*/
             return new WebHomePage(Driver);
         }
     }
