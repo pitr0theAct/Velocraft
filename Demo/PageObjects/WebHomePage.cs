@@ -19,6 +19,12 @@ namespace Demo.PageObjects
 
         WebItemWrap frameInCraft(string name) => new WebItemWrap($"//section[@class='mainlayout__content-craft']/descendant::img[@alt='{name}']", $"Рама {name} в блоке сборки");
 
+        WebItemWrap forkInCraft(string name) => new WebItemWrap($"//section[@class='mainlayout__content-craft']/descendant::img[@alt='{name}']", $"Вилка {name} в блоке сборки");
+
+        WebItemWrap weelsInCraft(string name) => new WebItemWrap($"//section[@class='mainlayout__content-craft']/descendant::img[@alt='{name}']", $"Колеса {name} в блоке сборки");
+
+        WebItemWrap tiresInCraft(string name) => new WebItemWrap($"//section[@class='mainlayout__content-craft']/descendant::img[@alt='{name}']", $"Покрышки {name} в блоке сборки");
+
         WebItemWrap confirmButton => new WebItemWrap("//button[@class='ui-btn popup__button --danger']", "Кнопка подтвердить изменение");
 
         WebItemWrap selectFork(string name) => new WebItemWrap($"//div[@class='catalog-item__image']/child::img[contains(@alt,'{name}')]", "Вилка в списке");
@@ -87,6 +93,28 @@ namespace Demo.PageObjects
         {
             bool isFrameNameExists = frameInCraft(name).WaitDisplayed(50);
             return isFrameNameExists;
+        }
+
+        public bool HaveNoFrame(string name)
+        {
+            bool isElementsNotInCraft = frameInCraft(name).WaitDisplayed();
+            return isElementsNotInCraft;
+        }
+
+        public bool HaveNoFork(string name)
+        {
+            bool isElementsNotInCraft = forkInCraft(name).WaitDisplayed();
+            return isElementsNotInCraft;
+        }
+        public bool HaveNoWeels(string name)
+        {
+            bool isElementsNotInCraft = weelsInCraft(name).WaitDisplayed();
+            return isElementsNotInCraft;
+        }
+        public bool HaveNoTires(string name)
+        {
+            bool isElementsNotInCraft = tiresInCraft(name).WaitDisplayed();
+            return isElementsNotInCraft;
         }
     }
 }

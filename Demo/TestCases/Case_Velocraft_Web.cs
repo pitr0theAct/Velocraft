@@ -52,7 +52,7 @@ namespace Demo.TestCases
             string newFrameName = "Specialized Chisel Hardtail 29 Frame Kit - M Gloss Purple";
 
             // Открываем сайт
-            homePage.ClosePopUp()
+            var resetedConfig = homePage.ClosePopUp()
             // Добавляем Раму
                 .AddFrame(frameName)
             // Добавляем Вилку
@@ -65,7 +65,40 @@ namespace Demo.TestCases
                 .AddFrame(newFrameName)
             // Подтверждаем действие
                 .ConfirmFrameChange();
-            // Проверем, что сборка сбросилась и осталась только рама
+
+            // Ассерты
+            // Проверка наличния новой рамы в сборке
+            bool isFramePresent = resetedConfig.AssertFrameName(newFrameName);
+            if (!isFramePresent)
+            {
+                Log.Error($"Название рамы {frameName} " +
+                    $"не отображается в блоке Просмотр сборки");
+            }
+
+            // Проверка сброса старых деталей
+            bool isFrameReseted = resetedConfig.HaveNoFrame(frameName);
+            if (isFrameReseted)
+            {
+                Log.Error($"Рама {frameName} не сбросилась из блока Просмотр сборки");
+            }
+
+            bool isForkReseted = resetedConfig.HaveNoFrame(forkName);
+            if (isForkReseted)
+            {
+                Log.Error($"Вилка {forkName} не сбросилась из блока Просмотр сборки");
+            }
+
+            bool isWeelsReseted = resetedConfig.HaveNoFrame(weelsName);
+            if (isWeelsReseted)
+            {
+                Log.Error($"Колеса {weelsName} на сбросились из блока Просмотр сборки");
+            }
+
+            bool isTiresReseted = resetedConfig.HaveNoFrame(tiresName);
+            if (isTiresReseted)
+            {
+                Log.Error($"Покрышки {tiresName} не сбросились из блока Просмотр сборки");
+            }
         }
     }
 }
