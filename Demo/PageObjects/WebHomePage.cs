@@ -1,7 +1,10 @@
 ﻿using Demo.BaseFramework;
 using Demo.SeleniumFramework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.BiDi.Input;
+using OpenQA.Selenium.DevTools.V143.Emulation;
 using OpenQA.Selenium.DevTools.V143.Page;
+using OpenQA.Selenium.DevTools.V144.DOM;
 
 namespace Demo.PageObjects
 {
@@ -15,6 +18,14 @@ namespace Demo.PageObjects
         WebItemWrap buttonAdd => new WebItemWrap("//button[@class='button_add']", "Кпока Добавить в сборку");
 
         WebItemWrap frameInCraft(string name) => new WebItemWrap($"//section[@class='mainlayout__content-craft']/descendant::img[@alt='{name}']", $"Рама {name} в блоке сборки");
+
+        WebItemWrap confirmButton => new WebItemWrap("//button[@class='ui-btn popup__button --danger']", "Кнопка подтвердить изменение");
+
+        WebItemWrap selectFork(string name) => new WebItemWrap($"//div[@class='catalog-item__image']/child::img[contains(@alt,'{name}')]", "Вилка в списке");
+
+        WebItemWrap selectWeels(string name) => new WebItemWrap($"//div[@class='catalog-item__image']/child::img[contains(@alt,'{name}')]", "Колеса в списке");
+
+        WebItemWrap selectTires(string name) => new WebItemWrap($"//div[@class='catalog-item__image']/child::img[contains(@alt,'{name}')]", "Покрышки в списке");
 
         public IWebDriver Driver { get; }
 
@@ -37,8 +48,38 @@ namespace Demo.PageObjects
         public WebHomePage AddFrame(string name)
         {
             selectBase.Click();
+            selectFrame(name).ScrollIntoView(alignToTop: false);
             selectFrame(name).Click();
             buttonAdd.Click();
+            return new WebHomePage();
+        }
+
+        public WebHomePage AddFork(string name)
+        {
+            selectFork(name).Click();
+            buttonAdd.Click();
+            return new WebHomePage();
+        }
+
+        public WebHomePage AddWeels(string name)
+        {
+            selectWeels(name).Click();
+            buttonAdd.Click();
+            return new WebHomePage();
+        }
+
+        public WebHomePage AddTires(string name)
+        {
+            selectTires(name).Click();
+            buttonAdd.Click();
+            selectTires(name).Click();
+            buttonAdd.Click();
+            return new WebHomePage();
+        }
+
+        public WebHomePage ConfirmFrameChange()
+        {
+            confirmButton.Click();
             return new WebHomePage();
         }
 

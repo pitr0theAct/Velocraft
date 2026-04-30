@@ -70,6 +70,37 @@ namespace Demo.SeleniumFramework
         /// <param name="waitDirection">Если true то будет ждать пока элемент отобразится, иначе будет ждать пока элемент отображается</param>
         /// <param name="waitDescription"></param>
         /// <returns></returns>
+        
+        /// <summary>
+        /// Прокручивает страницу до элемента, чтобы он стал видимым.
+        /// </summary>
+        /// <param name="alignToTop">true – выровнять элемент по верху окна, false – по низу.</param>
+        /// <param name="driver">Экземпляр драйвера (если не указан, используется DefaultDriver).</param>
+        /// <param name="waitDisplayedFirst">Если true, перед прокруткой будет выполнено ожидание видимости элемента.</param>
+        public void ScrollIntoView(bool alignToTop = true, IWebDriver driver = default, bool waitDisplayedFirst = true)
+        {
+            if (waitDisplayedFirst)
+                WaitDisplayed(driver: driver);
+            
+            LogActionInfo($"Прокрутка до элемента (alignToTop={alignToTop})");
+            
+            PerformAction((element, drv) =>
+            {
+                if (drv is IJavaScriptExecutor js)
+                {
+                    js.ExecuteScript("arguments[0].scrollIntoView(arguments[1]);", element, alignToTop);
+                }
+                else
+                {
+                    // Альтернативный способ через Actions (совместим с большинством драйверов)
+                    var actions = new OpenQA.Selenium.Interactions.Actions(drv);
+                    actions.MoveToElement(element).Perform();
+                }
+            }, driver);
+            
+            WaitersCore.Wait_s(WaitAfterActiveAction_s);
+        }
+
         protected bool WaitDisplayedBase(
             IWebDriver driver,
             int maxWait_s,
