@@ -3,6 +3,7 @@ using Demo.BaseFramework.LogTools;
 using Demo.BaseFramework.ScriptInterraction;
 using Demo.PageObjects;
 using Demo.SeleniumFramework.DriverActions;
+using OpenQA.Selenium.DevTools.V143.Page;
 
 namespace Demo.TestCases
 {
@@ -12,15 +13,29 @@ namespace Demo.TestCases
         {
             return new List<ExecutableTestCase>
             {
-                new ExecutableTestCase("Проверка сайта Veocraft",
-                homePage => TestVelocraft(homePage)),
+                new ExecutableTestCase("Базовое добавление детали в сборку",
+                homePage => AddFrame(homePage)),
             };
         }
 
-        public static void TestVelocraft(WebHomePage homePage)
+        public static void AddFrame(WebHomePage homePage)
         {
-            Thread.Sleep(100);
-            homePage.ClosePopUp();
+            string frameName = "Specialized Chisel Hardtail 29 Frame Kit - S Gloss Purple";
+
+            // Открываем сайт
+            bool isFramePresent = homePage
+                // Закрываем popUp с вводом роста и веса
+                .ClosePopUp()
+                // Добавляем раму в сборку
+                .AddFrame(frameName)
+                // Проверка наличия рамы в сборке
+                .AssertFrameName(frameName);
+
+            if (!isFramePresent)
+            {
+                Log.Error($"Название рамы {frameName} " +
+                    $"не отображается в блоке Просмотр сборки");
+            }
         }
     }
 }
