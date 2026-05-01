@@ -11,12 +11,7 @@ namespace Demo.BaseFramework
     {
         public static ExecutableTestCase RunningTestCase { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="title">Название тесткейса</param>
-        /// <param name="body">Ссылка на метод тела кейса</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        // Конструктор для обычного Web-теста
         public ExecutableTestCase(string title, Action<WebHomePage> body)
         {
             Title = title ?? throw new ArgumentNullException(nameof(title));
@@ -25,6 +20,16 @@ namespace Demo.BaseFramework
             EnvType = TestCaseEnvType.Web;
         }
 
+        // Конструктор для Velocraft-теста
+        public ExecutableTestCase(string title, Action<VelocraftHomePage> body)
+        {
+            Title = title ?? throw new ArgumentNullException(nameof(title));
+            VelocraftBody = body ?? throw new ArgumentNullException(nameof(body));
+            Node = new ExecutableTestCaseTreeNode(title);
+            EnvType = TestCaseEnvType.Web;
+        }
+
+        // Конструктор для мобильного теста
         public ExecutableTestCase(string title, Action<MobileAppHomePage> body)
         {
             Title = title ?? throw new ArgumentNullException(nameof(title));
@@ -42,7 +47,8 @@ namespace Demo.BaseFramework
             uiRefresher.Invoke();
             RunningTestCase = this;
             logCounter++;
-            CaseLogPath = Path.Combine(Environment.CurrentDirectory, $"caselog{DateTime.Now:ddMMyyyyHHmmss}{logCounter}.html");
+            CaseLogPath = Path.Combine(Environment.CurrentDirectory, 
+                $"caselog{DateTime.Now:ddMMyyyyHHmmss}{logCounter}.html");
             Log.WriteHtmlHeader(CaseLogPath);
             uiRefresher.Invoke();
 
@@ -55,16 +61,31 @@ namespace Demo.BaseFramework
                 if (EnvType == TestCaseEnvType.Web)
                 {
                     var portalLoginPage = new WebLoginPage(TestPortal);
-                    var homePage = portalLoginPage.Login(TestPortal.Admin);
-                    Body.Invoke(homePage);
+
+                    // Выбираем нужный делегат в зависимости от того, какой конструктор использовался
+                    if (Body != null)
+                    {
+                        var homePage = portalLoginPage.Login(TestPortal.Admin);
+                        Body.Invoke(homePage);
+                    }
+                    else if (VelocraftBody != null)
+                    {
+                        // Используем специальный метод входа, возвращающий VelocraftHomePage
+                        var velocraftHomePage = portalLoginPage.LoginVelocraft(TestPortal.Admin);
+                        VelocraftBody.Invoke(velocraftHomePage);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException(
+                            "Не задано тело для веб-теста (Body или VelocraftBody).");
+                    }
                 }
-                else
+                else // Mobile
                 {
                     var loginPage = new MobileAppLoginPage(TestPortal);
                     var homePage = loginPage.Login(TestPortal.Admin);
-                    MobileBody.Invoke(homePage);
+                    MobileBody?.Invoke(homePage);
                 }
-
             }
             catch (Exception e)
             {
@@ -93,29 +114,26 @@ namespace Demo.BaseFramework
         }
 
         /// <summary>
-        /// Выполняет php код в админке портала текущего кейса через "Настройки -> Командная PHP строка"
+        /// Выполняет PHP-код в админке портала текущего кейса
         /// </summary>
-        /// <param name="phpCode"></param>
-        /// <returns>Результат выполнения кода (если код в принципе что-то выводит)</returns>
         public string ExecutePHP(string phpCode)
         {
             if (IsCloud)
                 throw new Exception("Выполнение php на облаке невозможно");
-            var phpExecutor = new PHPexecutor(TestPortal.Adress, TestPortal.Admin.Login, TestPortal.Admin.Password);
+            var phpExecutor = new PHPexecutor(TestPortal.Adress, 
+                TestPortal.Admin.Login, TestPortal.Admin.Password);
             return phpExecutor.Execute(phpCode);
         }
 
         /// <summary>
         /// Генерирует нового сотрудника на портале
         /// </summary>
-        /// <param name="extranetUser">Если задано, то создаст пользователя эксранета</param>
-        /// <returns></returns>
         public User CreatePortalTestUser(bool extranetUser)
         {
             if (IsCloud)
                 throw new Exception("Генерация юзеров на облаке невозможна");
             var user = Employee_Tools.GenerateValidUserData();
-            if(extranetUser)
+            if (extranetUser)
                 Employee_Tools.AddUserExtranet(user, TestPortal.Admin, TestPortal.Adress);
             else
                 Employee_Tools.AddUserIntranet(user, TestPortal.Admin, TestPortal.Adress);
@@ -125,6 +143,7 @@ namespace Demo.BaseFramework
         public string Title { get; set; }
         Action<WebHomePage> Body { get; set; }
         Action<MobileAppHomePage> MobileBody { get; set; }
+        Action<VelocraftHomePage> VelocraftBody { get; set; }
         public ExecutableTestCaseTreeNode Node { get; set; }
         public string CaseLogPath { get; set; }
         public List<LogMessage> CaseLog { get; } = new List<LogMessage>();

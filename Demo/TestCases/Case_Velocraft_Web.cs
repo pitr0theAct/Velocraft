@@ -24,7 +24,7 @@ namespace Demo.TestCases
             };
         }
 
-        public static void AddFrame(WebHomePage homePage)
+        public static void AddFrame(VelocraftHomePage homePage)
         {
             // Название рамы
             string frameName = "Specialized Chisel Hardtail 29 Frame Kit - S Gloss Purple";
@@ -45,7 +45,7 @@ namespace Demo.TestCases
             }
         }
 
-        public static void ResetConfigAfterFrameSwap(WebHomePage homePage)
+        public static void ResetConfigAfterFrameSwap(VelocraftHomePage homePage)
         {
             // Названия добавляемых деталий
             string frameName = "Specialized Chisel Hardtail 29 Frame Kit - S Gloss Purple";
@@ -104,7 +104,7 @@ namespace Demo.TestCases
             }
         }
 
-        public static void CategorySelectionSkipStepBlocked(WebHomePage homePage)
+        public static void CategorySelectionSkipStepBlocked(VelocraftHomePage homePage)
         {
             string frameName = "Specialized Chisel Hardtail 29 Frame Kit - S Gloss Purple";
             
