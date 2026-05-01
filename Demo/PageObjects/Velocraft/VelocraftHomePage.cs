@@ -9,6 +9,9 @@ using OpenQA.Selenium.DevTools.V144.DOM;
 
 namespace Demo.PageObjects
 {
+    /// <summary>
+    /// Основная страница сайта Velocraft
+    /// </summary>
     public class VelocraftHomePage
     {
         #region Elements
@@ -48,6 +51,10 @@ namespace Demo.PageObjects
             Driver = driver;
         }
 
+        /// <summary>
+        /// Метод закрытия попапа с вводом антропометрических данных
+        /// </summary>
+        /// <returns></returns>
         public VelocraftHomePage ClosePopUp()
         {
             if (closePopUpButton.WaitDisplayed(5, Driver))
@@ -57,29 +64,53 @@ namespace Demo.PageObjects
             return new VelocraftHomePage();
         }
 
+        /// <summary>
+        /// Метод добавления рамы в сборку
+        /// </summary>
+        /// <param name="name">Название рамы</param>
+        /// <returns></returns>
         public VelocraftHomePage AddFrame(string name)
         {
+            selectBase.WaitDisplayed(5);
             selectBase.Click();
             selectFrame(name).ScrollIntoView(alignToTop: false);
+            selectFrame(name).WaitDisplayed(5);
             selectFrame(name).Click();
             buttonAdd.Click();
             return new VelocraftHomePage();
         }
 
+        /// <summary>
+        /// Метод добавления вилки в сборку
+        /// </summary>
+        /// <param name="name">Название вилки</param>
+        /// <returns></returns>
         public VelocraftHomePage AddFork(string name)
         {
+            selectFork(name).WaitDisplayed(5);
             selectFork(name).Click();
             buttonAdd.Click();
             return new VelocraftHomePage();
         }
 
+        /// <summary>
+        /// Метод добавления колес в сборку
+        /// </summary>
+        /// <param name="name">Название колес</param>
+        /// <returns></returns>
         public VelocraftHomePage AddWeels(string name)
         {
+            selectWeels(name).WaitDisplayed(5);
             selectWeels(name).Click();
             buttonAdd.Click();
             return new VelocraftHomePage();
         }
 
+        /// <summary>
+        /// Метод добавления покрышек в сборку
+        /// </summary>
+        /// <param name="name">Название покрышек</param>
+        /// <returns></returns>
         public VelocraftHomePage AddTires(string name)
         {
             selectTires(name).Click();
@@ -89,52 +120,95 @@ namespace Demo.PageObjects
             return new VelocraftHomePage();
         }
 
+        /// <summary>
+        /// Подтверждение изменения рамы
+        /// </summary>
+        /// <returns></returns>
         public VelocraftHomePage ConfirmFrameChange()
         {
             confirmButton.Click();
             return new VelocraftHomePage();
         }
 
+        /// <summary>
+        /// Проверка соответсвия названия рамы
+        /// </summary>
+        /// <param name="name">Название рамы</param>
+        /// <returns></returns>
         public bool AssertFrameName(string name)
         {
             bool isFrameNameExists = frameInCraft(name).WaitDisplayed(50);
             return isFrameNameExists;
         }
 
+        /// <summary>
+        /// Проверка отсутсвия рамы сборке
+        /// </summary>
+        /// <param name="name">Название рамы</param>
+        /// <returns></returns>
         public bool HaveNoFrame(string name)
         {
             bool isElementsNotInCraft = frameInCraft(name).WaitDisplayed();
             return isElementsNotInCraft;
         }
 
+        /// <summary>
+        /// Проверка отсутсвия вилки в сборке
+        /// </summary>
+        /// <param name="name">Название вилки</param>
+        /// <returns></returns>
         public bool HaveNoFork(string name)
         {
             bool isElementsNotInCraft = forkInCraft(name).WaitDisplayed();
             return isElementsNotInCraft;
         }
+
+        /// <summary>
+        /// Проверка отсутсвия колес в сборке
+        /// </summary>
+        /// <param name="name">Название колес</param>
+        /// <returns></returns>
         public bool HaveNoWeels(string name)
         {
             bool isElementsNotInCraft = weelsInCraft(name).WaitDisplayed();
             return isElementsNotInCraft;
         }
+
+        /// <summary>
+        /// Проверка отсутсвия покрышек в сборке
+        /// </summary>
+        /// <param name="name">Название покрышек</param>
+        /// <returns></returns>
         public bool HaveNoTires(string name)
         {
             bool isElementsNotInCraft = tiresInCraft(name).WaitDisplayed();
             return isElementsNotInCraft;
         }
 
+        /// <summary>
+        /// Открыть категорию основа
+        /// </summary>
+        /// <returns></returns>
         public VelocraftHomePage OpenBase()
         {
             selectBase.Click();
             return new VelocraftHomePage();
         }
 
+        /// <summary>
+        /// Открыть категорию вилка
+        /// </summary>
+        /// <returns></returns>
         public VelocraftHomePage OpenFork()
         {
             selectForkCategory.Click();
             return new VelocraftHomePage();
         }
 
+        /// <summary>
+        /// Проверка того, что каталог пуст
+        /// </summary>
+        /// <returns></returns>
         public bool AssertEmptyCatalog()
         {
             bool isCatalogEmpty = emptyCatalog.WaitDisplayed(3);

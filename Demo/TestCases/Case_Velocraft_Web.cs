@@ -24,6 +24,10 @@ namespace Demo.TestCases
             };
         }
 
+        /// <summary>
+        /// Автотест добавления рамы в сборку
+        /// </summary>
+        /// <param name="homePage"></param>
         public static void AddFrame(VelocraftHomePage homePage)
         {
             // Название рамы
@@ -45,6 +49,10 @@ namespace Demo.TestCases
             }
         }
 
+        /// <summary>
+        /// Автотест сброса сборки после изменения рамы
+        /// </summary>
+        /// <param name="homePage"></param>
         public static void ResetConfigAfterFrameSwap(VelocraftHomePage homePage)
         {
             // Названия добавляемых деталий
@@ -103,7 +111,11 @@ namespace Demo.TestCases
                 Log.Error($"Покрышки {tiresName} не сбросились из блока Просмотр сборки");
             }
         }
-
+        
+        /// <summary>
+        /// Автотест Запрет перехода без выбора предыдущей категории
+        /// </summary>
+        /// <param name="homePage"></param>
         public static void CategorySelectionSkipStepBlocked(VelocraftHomePage homePage)
         {
             string frameName = "Specialized Chisel Hardtail 29 Frame Kit - S Gloss Purple";
