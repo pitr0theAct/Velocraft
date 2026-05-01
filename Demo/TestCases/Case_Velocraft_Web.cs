@@ -13,13 +13,13 @@ namespace Demo.TestCases
         {
             return new List<ExecutableTestCase>
             {
-                new ExecutableTestCase("Базовое добавление детали в сборку",
+                new ExecutableTestCase("Базовое добавление детали в сборку (Velocraft)",
                 homePage => AddFrame(homePage)),
 
-                new ExecutableTestCase("Сброс конфигурации при замене рамы",
+                new ExecutableTestCase("Сброс конфигурации при замене рамы (Velocraft)",
                 homePage => ResetConfigAfterFrameSwap(homePage)),
 
-                new ExecutableTestCase("Запрет перехода на следующий шаг без выбора предыдущей категории",
+                new ExecutableTestCase("Запрет перехода на следующий шаг без выбора предыдущей категории (Velocraft)",
                 homePage => CategorySelectionSkipStepBlocked(homePage)),
             };
         }
@@ -106,18 +106,28 @@ namespace Demo.TestCases
 
         public static void CategorySelectionSkipStepBlocked(WebHomePage homePage)
         {
+            string frameName = "Specialized Chisel Hardtail 29 Frame Kit - S Gloss Purple";
+            
             // Открываем сайт конфигуратора
-
-            // Пытаемся перейти в новую категорию «Вилка», 
-            // не выбрав деталь в предыдущей категории «Рама»
+            var forkSelection = homePage.ClosePopUp()
+            // Пытаемся перейти в новую категорию «Вилка», не выбрав деталь в предыдущей категории «Рама»
+                .OpenBase()
+                .OpenFork();
             // Проверяем наличе сообщения о том, что сначала нужно выбрать раму
-
+            var isCatalogEmptyBefore = forkSelection.AssertEmptyCatalog();
+            if (!isCatalogEmptyBefore)
+            {
+                Log.Error("Катоалог вилок не пуст без выбора рамы");
+            }
+            
             // Выбираем первую деталь в категории «Рама»
+            var IsCatalogEmptyAfter = forkSelection.AddFrame(frameName)
             // Проверяем, что теперь выбор вилки доступен
-
-            // Пытаемся перейти через одну категорию (например, «Колеса»), 
-            // минуя выбор детали в предыдущей («Вилка»)
-            // Проверяем наличе сообщения о том, что сначала нужно выбрать вилку
+                .AssertEmptyCatalog();
+            if (IsCatalogEmptyAfter)
+            {
+                Log.Error("Каталог пуст вилок пуст после выбора рамы");
+            }
         }
     }
 }

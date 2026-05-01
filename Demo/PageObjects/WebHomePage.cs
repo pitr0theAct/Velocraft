@@ -1,5 +1,6 @@
 ﻿using Demo.BaseFramework;
 using Demo.SeleniumFramework;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 using OpenQA.Selenium;
 using OpenQA.Selenium.BiDi.Input;
 using OpenQA.Selenium.DevTools.V143.Emulation;
@@ -10,12 +11,15 @@ namespace Demo.PageObjects
 {
     public class WebHomePage
     {
+        #region Elements
         WebItemWrap closePopUpButton => new WebItemWrap("//span[@class='popup-window-close-icon popup-window-titlebar-close-icon']", "Кнопка 'Роботы'");
         WebItemWrap selectBase => new WebItemWrap("//div[contains(@class, 'content-catalog__header-group')]/child::p[text()='Основа']", "Кнопка Основа");
 
+        WebItemWrap selectForkCategory => new WebItemWrap("//div[@class='content-catalog__category-item']/child::p[text()='Вилка']", "Кнопка Вилка");
+
         WebItemWrap selectFrame(string name) => new WebItemWrap($"//div[@class='catalog-item__image']/child::img[@alt='{name}']", "Рама в списке");
 
-        WebItemWrap buttonAdd => new WebItemWrap("//button[@class='button_add']", "Кпока Добавить в сборку");
+        WebItemWrap buttonAdd => new WebItemWrap("//button[contains(@class,'button_add')]", "Кпока Добавить в сборку");
 
         WebItemWrap frameInCraft(string name) => new WebItemWrap($"//section[@class='mainlayout__content-craft']/descendant::img[@alt='{name}']", $"Рама {name} в блоке сборки");
 
@@ -32,6 +36,10 @@ namespace Demo.PageObjects
         WebItemWrap selectWeels(string name) => new WebItemWrap($"//div[@class='catalog-item__image']/child::img[contains(@alt,'{name}')]", "Колеса в списке");
 
         WebItemWrap selectTires(string name) => new WebItemWrap($"//div[@class='catalog-item__image']/child::img[contains(@alt,'{name}')]", "Покрышки в списке");
+
+        WebItemWrap emptyCatalog => new WebItemWrap("//div[@class='content-catalog__catalog-empty']", "Пустой катлог");
+
+        #endregion Elements
 
         public IWebDriver Driver { get; }
 
@@ -116,5 +124,24 @@ namespace Demo.PageObjects
             bool isElementsNotInCraft = tiresInCraft(name).WaitDisplayed();
             return isElementsNotInCraft;
         }
+
+        public WebHomePage OpenBase()
+        {
+            selectBase.Click();
+            return new WebHomePage();
+        }
+
+        public WebHomePage OpenFork()
+        {
+            selectForkCategory.Click();
+            return new WebHomePage();
+        }
+
+        public bool AssertEmptyCatalog()
+        {
+            bool isCatalogEmpty = emptyCatalog.WaitDisplayed(3);
+            return isCatalogEmpty;
+        }
+
     }
 }
