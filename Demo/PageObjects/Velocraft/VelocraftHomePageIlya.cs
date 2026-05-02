@@ -21,8 +21,8 @@ namespace Demo.PageObjects.Velocraft
                 "Поле для ввода веса");
 
         WebItemWrap SavePopupButton => 
-            new WebItemWrap("//button[contains(@class, 'popup__button') and .//span[text()='Сохранить']]", 
-                "Поле для ввода веса");
+            new WebItemWrap("//button[contains(@class, 'popup__button')]//span[text()='Сохранить']", 
+                "Кнопка 'Сохранить' рост и вес");
 
         WebItemWrap BaseButton =>
              new WebItemWrap("//div[contains(@class, 'content-catalog__header-group') and .//p[text()='Основа']]",
