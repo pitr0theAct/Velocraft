@@ -21,6 +21,7 @@ namespace Demo.TestCases
 
                 new ExecutableTestCase("Запрет перехода на следующий шаг без выбора предыдущей категории (Velocraft)",
                 homePage => CategorySelectionSkipStepBlocked(homePage)),
+
             };
         }
 
