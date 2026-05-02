@@ -1,5 +1,6 @@
 ﻿using Demo.BaseFramework;
 using Demo.SeleniumFramework;
+using NUnit.Framework;
 
 namespace Demo.PageObjects.Velocraft
 {
@@ -95,9 +96,29 @@ namespace Demo.PageObjects.Velocraft
             return new VelocraftTransmissionPage();
         }
 
-        public void AssertCheckFrameAndForkCompability()
+        public VelocraftWheelsPage AssertCheckFrameAndForkCompability(string frameName, string forkName)
         {
-            throw new NotImplementedException();
+            string frameUpper = GetParameterValue("Диаметр верха штока вилки (мм)");
+            string frameLower = GetParameterValue("Диаметр низа штока вилки (мм)");
+
+            string forkUpper = GetParameterValue("Диаметр верха штока вилки (мм)");
+            string forkLower = GetParameterValue("Диаметр низа штока вилки (мм)");
+
+            if (frameUpper != forkUpper)
+                throw new Exception($"Верхний диаметр штока не совпадает: рама={frameUpper}, вилка={forkUpper}");
+            if (frameLower != forkLower)
+                throw new Exception($"Нижний диаметр штока не совпадает: рама={frameLower}, вилка={forkLower}");
+
+            return this;
+        }
+
+        // Вспомогательный метод для получения значения параметра на текущей открытой карточке
+        private string GetParameterValue(string parameterName)
+        {
+            string xpath = $"//div[@class='item-feature']/dt[contains(text(),'{parameterName}')]/following-sibling::dd[1]";
+            var param = new WebItemWrap(xpath, $"Параметр {parameterName}");
+            param.WaitDisplayed();
+            return param.InnerText().Trim();
         }
     }
 }
