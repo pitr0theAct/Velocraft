@@ -93,19 +93,19 @@ namespace Demo.TestCases
                 Log.Error($"Рама {frameName} не сбросилась из блока Просмотр сборки");
             }
 
-            bool isForkReseted = resetedConfig.HaveNoFrame(forkName);
+            bool isForkReseted = resetedConfig.HaveNoFork(forkName);
             if (isForkReseted)
             {
                 Log.Error($"Вилка {forkName} не сбросилась из блока Просмотр сборки");
             }
 
-            bool isWeelsReseted = resetedConfig.HaveNoFrame(weelsName);
+            bool isWeelsReseted = resetedConfig.HaveNoWeels(weelsName);
             if (isWeelsReseted)
             {
                 Log.Error($"Колеса {weelsName} на сбросились из блока Просмотр сборки");
             }
 
-            bool isTiresReseted = resetedConfig.HaveNoFrame(tiresName);
+            bool isTiresReseted = resetedConfig.HaveNoTires(tiresName);
             if (isTiresReseted)
             {
                 Log.Error($"Покрышки {tiresName} не сбросились из блока Просмотр сборки");

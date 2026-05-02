@@ -42,6 +42,8 @@ namespace Demo.PageObjects
 
         WebItemWrap emptyCatalog => new WebItemWrap("//div[@class='content-catalog__catalog-empty']", "Пустой катлог");
 
+        WebItemWrap selectedSection => new WebItemWrap("//section[@class='content-info__item-image --active']", "Поле выбранной детали");
+
         #endregion Elements
 
         public IWebDriver Driver { get; }
@@ -76,6 +78,7 @@ namespace Demo.PageObjects
             selectFrame(name).ScrollIntoView(alignToTop: false);
             selectFrame(name).WaitDisplayed(5);
             selectFrame(name).Click();
+            selectedSection.WaitDisplayed(5);
             buttonAdd.Click();
             return new VelocraftHomePage();
         }
@@ -89,6 +92,7 @@ namespace Demo.PageObjects
         {
             selectFork(name).WaitDisplayed(5);
             selectFork(name).Click();
+            selectedSection.WaitDisplayed(5);
             buttonAdd.Click();
             return new VelocraftHomePage();
         }
@@ -102,6 +106,7 @@ namespace Demo.PageObjects
         {
             selectWeels(name).WaitDisplayed(5);
             selectWeels(name).Click();
+            selectedSection.WaitDisplayed(5);
             buttonAdd.Click();
             return new VelocraftHomePage();
         }
@@ -116,6 +121,7 @@ namespace Demo.PageObjects
             selectTires(name).Click();
             buttonAdd.Click();
             selectTires(name).Click();
+            selectedSection.WaitDisplayed(5);
             buttonAdd.Click();
             return new VelocraftHomePage();
         }
