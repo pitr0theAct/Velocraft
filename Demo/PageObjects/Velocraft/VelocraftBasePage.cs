@@ -25,21 +25,42 @@ namespace Demo.PageObjects.Velocraft
             new WebItemWrap($"//section[contains(@class, 'content-info__item-content')]//img[contains(@alt, '{name}')]", 
                 $"Картинка вилки {name} в детальном просмотре");
 
+
+        // Поля для хранения параметров
+        private string _frameUpperDiameter;
+        private string _frameLowerDiameter;
+        private string _forkUpperDiameter;
+        private string _forkLowerDiameter;
+
+        // Вспомогательный метод для получения параметра 
+        private string GetParameterValue(string parameterName)
+        {
+            string xpath = $"//div[@class='item-feature']/dt[contains(text(),'{parameterName}')]/following-sibling::dd[1]";
+            var param = new WebItemWrap(xpath, $"Параметр {parameterName}");
+            param.WaitDisplayed();
+            return param.InnerText().Trim();
+        }
+
         public VelocraftWheelsPage ChoosingPartsOfTheBase(string frameName, string forkName)
         {
             //Рама
             FrameImage(frameName).WaitDisplayed();
             FrameImage(frameName).Click();
             FrameImageInDetails(frameName).WaitDisplayed();
+            // Сохраняем параметры рамы
+            _frameUpperDiameter = GetParameterValue("Диаметр верха штока вилки (мм)");
+            _frameLowerDiameter = GetParameterValue("Диаметр низа штока вилки (мм)");
             AddToTheAssemblyButton.Click();
             // Вилка
             ForkImage(forkName).WaitDisplayed();
             ForkImage(forkName).Click();
             ForkImageInDetails(forkName).WaitDisplayed();
+            // Сохраняем параметры вилки
+            _forkUpperDiameter = GetParameterValue("Диаметр верха штока вилки (мм)");
+            _forkLowerDiameter = GetParameterValue("Диаметр низа штока вилки (мм)");
             AddToTheAssemblyButton.Click();
-            return new VelocraftWheelsPage();
+            return new VelocraftWheelsPage(_frameUpperDiameter, _frameLowerDiameter, _forkUpperDiameter, _forkLowerDiameter);
         }
-
 
     }
 

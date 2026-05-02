@@ -1,5 +1,6 @@
 ﻿using Demo.BaseFramework;
 using Demo.SeleniumFramework;
+using System.Xml.Linq;
 
 namespace Demo.PageObjects.Velocraft
 {
@@ -37,15 +38,6 @@ namespace Demo.PageObjects.Velocraft
                 "Картинка выноса руля в детальном просмотре");
 
         // Руль
-
-        //WebItemWrap HandlebarImage =>
-        //    new WebItemWrap("//section[contains(@class, 'content-catalog__catalog-container')]//img[contains(@alt, 'OneUp Components V2 Carbon')]",
-        //        "Картинка руля");
-
-        //WebItemWrap HandlebarImageInDetails =>
-        //    new WebItemWrap("//section[contains(@class, 'content-info__item-content')]//img[@alt='OneUp Components V2 Carbon 800 mm 35 mm 20 mm Riser Handlebar']",
-        //        "Картинка руля в детальном просмотре");
-
         WebItemWrap HandlebarImage =>
             new WebItemWrap("//section[contains(@class, 'content-catalog__catalog-container')]//img[contains(@alt, 'LEVEL') and contains(@alt, 'Riser Handlebar')]",
                 "Картинка руля");
@@ -85,6 +77,7 @@ namespace Demo.PageObjects.Velocraft
             AddToTheAssemblyButton.Click();
             // Грипсы
             GripsImage.WaitDisplayed();
+            GripsImage.ScrollIntoView(alignToTop: false);
             GripsImage.Click();
             GripsImageInDetails.WaitDisplayed();
             AddToTheAssemblyButton.Click();

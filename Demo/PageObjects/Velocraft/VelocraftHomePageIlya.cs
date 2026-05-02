@@ -1,5 +1,6 @@
 ﻿using Demo.SeleniumFramework;
 using OpenQA.Selenium;
+using System.Xml.Linq;
 
 namespace Demo.PageObjects.Velocraft
 {
@@ -52,6 +53,28 @@ namespace Demo.PageObjects.Velocraft
             SaveBuildButton.WaitDisplayed(5);
             SaveBuildButton.Click();
             return new VelocraftHomePageIlya(this.Driver);
+        }
+
+        public VelocraftHomePageIlya AssertFrameInViewBuild(string frameName)
+        {
+            var frameInBuild = new WebItemWrap($"//section[contains(@class, 'content-catalog__catalog-container') and contains(@class, '--build')]//img[@alt='{frameName}']", 
+                $"Рама {frameName} в блоке сборки");
+            if (!frameInBuild.WaitDisplayed())
+            {
+                throw new Exception($"Рама '{frameName}' не отображается в блоке сборки");
+            }
+            return new VelocraftHomePageIlya();
+        }
+
+        public VelocraftHomePageIlya AssertForkInViewBuild(string forkName)
+        {
+            var forkInBuild = new WebItemWrap($"//section[contains(@class, 'content-catalog__catalog-container') and contains(@class, '--build')]//img[contains(@alt, '{forkName}')]",
+                $"Вилка {forkName} в блоке сборки");
+            if (!forkInBuild.WaitDisplayed())
+            {
+                throw new Exception($"Рама '{forkName}' не отображается в блоке сборки");
+            }
+            return new VelocraftHomePageIlya();
         }
     }
 }

@@ -38,16 +38,19 @@ namespace Demo.PageObjects.Velocraft
         public VelocraftHomePageIlya ChoosingPartsOfTheSaddle()
         {
             // Подседельный штырь
+            SeatpostImage.ScrollIntoView(alignToTop: false);
             SeatpostImage.WaitDisplayed();
             SeatpostImage.Click();
             SeatpostImageInDetails.WaitDisplayed();
             AddToTheAssemblyButton.Click();
             // Рычаг дроппера
+            DropperLevelImage.ScrollIntoView(alignToTop: false);
             DropperLevelImage.WaitDisplayed();
             DropperLevelImage.Click();
             DropperLevelImageInDetails.WaitDisplayed();
             AddToTheAssemblyButton.Click();
             // Седло
+            SaddleImage.ScrollIntoView(alignToTop: false);
             SaddleImage.WaitDisplayed();
             SaddleImage.Click();
             SaddleImageInDetails.WaitDisplayed();

@@ -39,10 +39,11 @@ namespace Demo.TestCases
                 // Выбор деталей для категории "Седло"
                 .ChoosingPartsOfTheSaddle()
                 // Сохранение сборки
-                .SavingBuild();
-                // Ассерт сохранения сборки
-
-                Thread.Sleep(50000);
+                //.SavingBuild();
+                // Ассерт сохранения рамы
+                .AssertFrameInViewBuild(frameName)
+                // Ассерт сохранения вилки
+                .AssertForkInViewBuild(forkName);
         }
     }
 

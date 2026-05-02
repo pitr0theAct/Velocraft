@@ -38,11 +38,13 @@ namespace Demo.PageObjects.Velocraft
         public VelocraftSaddlePage ChoosingPartsOfTheBrakes()
         {
             // Дисковые тормоза
+            DiskBrakesImage.ScrollIntoView(alignToTop: false);
             DiskBrakesImage.WaitDisplayed();
             DiskBrakesImage.Click();
             DiskBrakesImageInDetails.WaitDisplayed();
             AddToTheAssemblyButton.Click();
             // Задний тормозной диск
+            RearBrakesDiscImage.ScrollIntoView(alignToTop: false);
             RearBrakesDiscImage.WaitDisplayed();
             RearBrakesDiscImage.Click();
             RearBrakesDiscImageInDetails.WaitDisplayed();
