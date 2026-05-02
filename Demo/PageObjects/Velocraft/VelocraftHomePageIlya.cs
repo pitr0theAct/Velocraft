@@ -1,6 +1,7 @@
 ﻿using Demo.SeleniumFramework;
 using OpenQA.Selenium;
 using System.Xml.Linq;
+using Demo.BaseFramework.LogTools;
 
 namespace Demo.PageObjects.Velocraft
 {
@@ -63,6 +64,7 @@ namespace Demo.PageObjects.Velocraft
             {
                 throw new Exception($"Рама '{frameName}' не отображается в блоке сборки");
             }
+            Log.Info($"Рама '{frameName}' успешно добавлена в сборку и отображается в блоке сборки");
             return new VelocraftHomePageIlya();
         }
 
@@ -74,6 +76,7 @@ namespace Demo.PageObjects.Velocraft
             {
                 throw new Exception($"Рама '{forkName}' не отображается в блоке сборки");
             }
+            Log.Info($"Вилка '{forkName}' успешно добавлена в сборку и отображается в блоке сборки");
             return new VelocraftHomePageIlya();
         }
     }
