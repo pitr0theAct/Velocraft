@@ -32,7 +32,7 @@ namespace Demo.TestCases
                 .ChoosingPartsOfTheBase(frameName, forkName);
                 VelocraftBasePage
                 // Проверка совместимости
-                .AssertCheckFrameAndForkCompability(frameName, forkName);
+                .AssertCheckFrameAndForkCompability();
             }
         }
     }

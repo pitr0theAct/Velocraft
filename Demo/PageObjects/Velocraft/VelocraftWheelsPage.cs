@@ -1,6 +1,5 @@
 ﻿using Demo.BaseFramework;
 using Demo.SeleniumFramework;
-using NUnit.Framework;
 
 namespace Demo.PageObjects.Velocraft
 {
@@ -61,7 +60,20 @@ namespace Demo.PageObjects.Velocraft
         WebItemWrap FrameFrontCameraInDetails =>
             new WebItemWrap("//section[contains(@class, 'content-info__item')]//img[@alt='Schwalbe Inner Tube 19+ Air Plus for 29+']",
                 "Картинка передней камеры в детальном просмотре");
-        
+
+        private string _frameUpper;
+        private string _frameLower;
+        private string _forkUpper;
+        private string _forkLower;
+
+        public VelocraftWheelsPage(string frameUpper, string frameLower, string forkUpper, string forkLower)
+        {
+            _frameUpper = frameUpper;
+            _frameLower = frameLower;
+            _forkUpper = forkUpper;
+            _forkLower = forkLower;
+        }
+
         public VelocraftTransmissionPage ChoosingPartsOfTheWheels()
         {
             // Колёсная пара
@@ -96,29 +108,13 @@ namespace Demo.PageObjects.Velocraft
             return new VelocraftTransmissionPage();
         }
 
-        public VelocraftWheelsPage AssertCheckFrameAndForkCompability(string frameName, string forkName)
+        public VelocraftWheelsPage AssertCheckFrameAndForkCompability() 
         {
-            string frameUpper = GetParameterValue("Диаметр верха штока вилки (мм)");
-            string frameLower = GetParameterValue("Диаметр низа штока вилки (мм)");
-
-            string forkUpper = GetParameterValue("Диаметр верха штока вилки (мм)");
-            string forkLower = GetParameterValue("Диаметр низа штока вилки (мм)");
-
-            if (frameUpper != forkUpper)
-                throw new Exception($"Верхний диаметр штока не совпадает: рама={frameUpper}, вилка={forkUpper}");
-            if (frameLower != forkLower)
-                throw new Exception($"Нижний диаметр штока не совпадает: рама={frameLower}, вилка={forkLower}");
-
+            if (_frameUpper != _forkUpper)
+                throw new Exception($"Верхний диаметр штока не совпадает: рама={_frameUpper}, вилка={_forkUpper}");
+            if (_frameLower != _forkLower)
+                throw new Exception($"Нижний диаметр штока не совпадает: рама={_frameLower}, вилка={_forkLower}");
             return this;
-        }
-
-        // Вспомогательный метод для получения значения параметра на текущей открытой карточке
-        private string GetParameterValue(string parameterName)
-        {
-            string xpath = $"//div[@class='item-feature']/dt[contains(text(),'{parameterName}')]/following-sibling::dd[1]";
-            var param = new WebItemWrap(xpath, $"Параметр {parameterName}");
-            param.WaitDisplayed();
-            return param.InnerText().Trim();
         }
     }
 }
