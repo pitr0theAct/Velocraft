@@ -32,21 +32,25 @@ namespace Demo.TestCases
         {
             // Название рамы
             string frameName = "Specialized Chisel Hardtail 29 Frame Kit - S Gloss Purple";
+            string brandName = "Specialized";
 
             // Открываем сайт
-            bool isFramePresent = homePage
-                // Закрываем popUp с вводом роста и веса
+            var addedFrame = homePage
+            // Закрываем popUp с вводом роста и веса
                 .ClosePopUp()
-                // Добавляем раму в сборку
-                .AddFrame(frameName)
-                // Проверка наличия рамы в сборке
-                .AssertFrameName(frameName);
+            // Добавляем раму в сборку
+                .AddFrame(frameName);
 
+            // Проверка наличия рамы в сборке
+            bool isFramePresent = addedFrame.AssertFrameName(frameName);
             if (!isFramePresent)
             {
                 Log.Error($"Название рамы {frameName} " +
                     $"не отображается в блоке Просмотр сборки");
             }
+
+            // Проверка наличия названия бренда
+            addedFrame.AssertFrameBrand(brandName);
         }
 
         /// <summary>

@@ -221,5 +221,11 @@ namespace Demo.PageObjects
             return isCatalogEmpty;
         }
 
+        public bool AssertFrameBrand(string brandName)
+        {
+            bool isBrandExist = new WebItemWrap($"//section[@class='content-catalog__catalog-container --build']//descendant::div[@class='catalog-item__manufacturer']/child::p[text()='{brandName}']", 
+                "Название бренда детали в блоке Просмотр сборки").AssertTextContaining(brandName, "Название бренда детали не корректное");
+            return isBrandExist;
+        }
     }
 }
