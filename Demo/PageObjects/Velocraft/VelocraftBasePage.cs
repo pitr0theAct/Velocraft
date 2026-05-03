@@ -2,6 +2,11 @@
 
 namespace Demo.PageObjects.Velocraft
 {
+    /// <summary>
+    /// Страница выбора базовых компонентов (рама и вилка) в конструкторе велосипеда.
+    /// Содержит методы для выбора рамы и вилки, а также для извлечения и сохранения их геометрических параметров
+    /// (диаметров штока) с целью последующей проверки совместимости.
+    /// </summary>
     public class VelocraftBasePage
     {
         WebItemWrap AddToTheAssemblyButton =>
@@ -41,6 +46,13 @@ namespace Demo.PageObjects.Velocraft
             return param.InnerText().Trim();
         }
 
+        /// <summary>
+        /// Выбор базовых компонентов велосипеда (рамы и вилки) и сохранения 
+        /// параметров этих деталей для последующего их сравнения для проверки совместимости
+        /// </summary>
+        /// <param name="frameName">Название рамы</param>
+        /// <param name="forkName">Название вилки</param>
+        /// <returns>Страница со списком колёс</returns>
         public VelocraftWheelsPage ChoosingPartsOfTheBase(string frameName, string forkName)
         {
             //Рама
@@ -61,7 +73,5 @@ namespace Demo.PageObjects.Velocraft
             AddToTheAssemblyButton.Click();
             return new VelocraftWheelsPage(_frameUpperDiameter, _frameLowerDiameter, _forkUpperDiameter, _forkLowerDiameter);
         }
-
     }
-
 }
