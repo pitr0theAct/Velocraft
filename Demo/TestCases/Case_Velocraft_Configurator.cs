@@ -1,6 +1,7 @@
 ﻿using Demo.BaseFramework;
 using Demo.PageObjects;
 using Demo.PageObjects.Velocraft;
+using System.Xml.Linq;
 
 namespace Demo.TestCases
 {
@@ -9,7 +10,7 @@ namespace Demo.TestCases
         protected override List<ExecutableTestCase> GetCases()
         {
             var caseCollection = new List<ExecutableTestCase>();
-            caseCollection.Add(new ExecutableTestCase("Полный проход конфигуратора с сохранением сборки", (Action<WebHomePage>)(homePage =>
+            caseCollection.Add(new ExecutableTestCase("Полный проход конфигуратора с сохранением сборки (Velocraft)", (Action<WebHomePage>)(homePage =>
             {
                 var ilyaHome = new VelocraftHomePageIlya(homePage.Driver);
                 FullConfiguratorPass(ilyaHome);
@@ -19,11 +20,28 @@ namespace Demo.TestCases
 
         void FullConfiguratorPass(VelocraftHomePageIlya homePage)
         {
+            // Данные для регистрации
+            string login = "testuser_" + HelperMethodsCore.GetDateTimeSalt();
+            string email = login + "@example.com";
+            string password = "Qwerty123";
+            string name = "Test" + HelperMethodsCore.GetDateTimeSalt();
+            string surname = "User" + HelperMethodsCore.GetDateTimeSalt();
+
             string frameName = "Specialized Chisel Hardtail 29 Frame Kit - S Gloss Purple";
             string forkName = "RockShox Domain Gold R DebonAir Boost 29";
+            string saddleName = "Chromag Overture LTD Saddle";
+
             var VelocraftBasePage = homePage
                 // Ввод роста и веса
                 .EnteringHeightAndWeight()
+                // Переходим на страницу авторизации
+                .GoToAuthorizationPage()
+                // Переходим на страницу регистрации
+                .GoToRegistrationPage()
+                // Регистрация
+                .Registration(login, name, surname, email, password)
+                // Авторизация
+                .Authorization(login, password)
                 // Перейти в категорию сборки "Основа"
                 .OpenBase()
                 // Выбор деталей для категории "Основа"
@@ -37,14 +55,15 @@ namespace Demo.TestCases
                 // Выбор деталей для категории "Тормоза"
                 .ChoosingPartsOfTheBrakes()
                 // Выбор деталей для категории "Седло"
-                .ChoosingPartsOfTheSaddle()
+                .ChoosingPartsOfTheSaddle(saddleName)
                 // Сохранение сборки
                 //.SavingBuild();
-                // Ассерт сохранения рамы
+                // Ассерт добавления рамы в сборку
                 .AssertFrameInViewBuild(frameName)
-                // Ассерт сохранения вилки
-                .AssertForkInViewBuild(forkName);
+                // Ассерт добавления вилки в сборку
+                .AssertForkInViewBuild(forkName)
+                // Ассерт добавления последней детали в сборку - седла 
+                .AssertSaddleInViewBuild(saddleName);
         }
     }
-
 }
