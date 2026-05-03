@@ -2,6 +2,9 @@
 
 namespace Demo.PageObjects.Velocraft
 {
+    /// <summary>
+    /// Страница выбора тормозных компонентов (дисковые тормоза, задний и передний тормозные диски) в конструкторе велосипеда.
+    /// </summary>
     public class VelocraftBrakesPage
     {
         WebItemWrap AddToTheAssemblyButton =>
@@ -35,6 +38,15 @@ namespace Demo.PageObjects.Velocraft
             new WebItemWrap("//section[contains(@class, 'content-info__item')]//img[contains(@alt, 'SRAM Centerline Rounded 6-bolt Brake Rotors, 1-Piece')]",
                 "Картинка переднего тормозного диска в детальном просмотре");
 
+        /// <summary>
+        /// Выполняет последовательное добавление всех тормозных компонентов в сборку
+        /// </summary>
+        /// <returns>Страница выбора деталей из категории "Седло"<see cref="VelocraftSaddlePage"/></returns>
+        /// <remarks>
+        /// Каждый компонент выбирается кликом по его изображению, ожидается загрузка детального просмотра,
+        /// затем нажимается кнопка «Добавить в сборку».
+        /// Для дисковых тормозов и заднего тормозного диска перед кликом выполняется прокрутка к элементу (ScrollIntoView).
+        /// </remarks>
         public VelocraftSaddlePage ChoosingPartsOfTheBrakes()
         {
             // Дисковые тормоза

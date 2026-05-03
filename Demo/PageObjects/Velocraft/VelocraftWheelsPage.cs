@@ -3,6 +3,10 @@ using Demo.SeleniumFramework;
 
 namespace Demo.PageObjects.Velocraft
 {
+    /// <summary>
+    /// Страница выбора колёсных компонентов (колёсная пара, покрышки, камеры) в конструкторе велосипеда.
+    /// Содержит методы для последовательного добавления деталей и проверки совместимости ранее выбранных рамы и вилки.
+    /// </summary>
     public class VelocraftWheelsPage
     {
         WebItemWrap AddToTheAssemblyButton =>
@@ -66,6 +70,13 @@ namespace Demo.PageObjects.Velocraft
         private string _forkUpper;
         private string _forkLower;
 
+        /// <summary>
+        /// Инициализирует страницу выбора колёс с переданными параметрами совместимости рамы и вилки
+        /// </summary>
+        /// <param name="frameUpper">Верхний диаметр штока вилки, измеренный у рамы</param>
+        /// <param name="frameLower">Нижний диаметр штока вилки, измеренный у рамы</param>
+        /// <param name="forkUpper">Верхний диаметр штока вилки, измеренный у вилки</param>
+        /// <param name="forkLower">Нижний диаметр штока вилки, измеренный у вилки</param>
         public VelocraftWheelsPage(string frameUpper, string frameLower, string forkUpper, string forkLower)
         {
             _frameUpper = frameUpper;
@@ -74,6 +85,10 @@ namespace Demo.PageObjects.Velocraft
             _forkLower = forkLower;
         }
 
+        /// <summary>
+        /// Выполняет последовательное добавление колёсных компонентов в сборку
+        /// </summary>
+        /// <returns>Страница для выбора деталей из категории "Трансмиссия"</returns>
         public VelocraftTransmissionPage ChoosingPartsOfTheWheels()
         {
             // Колёсная пара
@@ -108,6 +123,11 @@ namespace Demo.PageObjects.Velocraft
             return new VelocraftTransmissionPage();
         }
 
+        /// <summary>
+        /// Проверяет совместимость ранее выбранных рамы и вилки по диаметрам штока (верхнему и нижнему).
+        /// </summary>
+        /// <returns>Тот же экземпляр страницы <see cref="VelocraftWheelsPage"/> для продолжения цепочки вызовов</returns>
+        /// <exception cref="Exception">Выбрасывается, если верхний или нижний диаметр рамы не совпадает с соответствующим диаметром вилки</exception>
         public VelocraftWheelsPage AssertCheckFrameAndForkCompability() 
         {
             if (_frameUpper != _forkUpper)

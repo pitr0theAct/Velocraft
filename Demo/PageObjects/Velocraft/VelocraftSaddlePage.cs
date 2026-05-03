@@ -2,6 +2,9 @@
 
 namespace Demo.PageObjects.Velocraft
 {
+    /// <summary>
+    /// Страница выбора деталей из категории "Седло"
+    /// </summary>
     public class VelocraftSaddlePage
     {
         WebItemWrap AddToTheAssemblyButton =>
@@ -27,15 +30,25 @@ namespace Demo.PageObjects.Velocraft
                 "Картинка дроппера в детальном просмотре");
 
         // Седло
-        WebItemWrap SaddleImage =>
-            new WebItemWrap("//section[contains(@class, 'content-catalog__catalog-container')]//img[@alt='Chromag Overture LTD Saddle']",
+        WebItemWrap SaddleImage(string name) =>
+            new WebItemWrap($"//section[contains(@class, 'content-catalog__catalog-container')]//img[@alt='{name}']",
                 "Картинка седла");
 
-        WebItemWrap SaddleImageInDetails =>
-            new WebItemWrap("//section[contains(@class, 'content-info__item')]//img[contains(@alt, 'Chromag Overture LTD Saddle')]",
+        WebItemWrap SaddleImageInDetails(string name) =>
+            new WebItemWrap($"//section[contains(@class, 'content-info__item')]//img[contains(@alt, '{name}')]",
                 "Картинка седла в детальном просмотре");
 
-        public VelocraftHomePageIlya ChoosingPartsOfTheSaddle()
+        /// <summary>
+        /// Выполняет последовательное добавление всех деталей из категории "Седло"
+        /// </summary>
+        /// <param name="saddleName"></param>
+        /// <returns>Главная страница <see cref="VelocraftHomePageIlya"/> после завершения выбора компонентов седла</returns>
+        /// <remarks>
+        /// Каждый компонент выбирается кликом по его изображению, ожидается загрузка детального просмотра,
+        /// затем нажимается кнопка «Добавить в сборку».
+        /// Перед кликом для каждого элемента выполняется прокрутка к элементу (ScrollIntoView).
+        /// </remarks>
+        public VelocraftHomePageIlya ChoosingPartsOfTheSaddle(string saddleName)
         {
             // Подседельный штырь
             SeatpostImage.ScrollIntoView(alignToTop: false);
@@ -50,10 +63,10 @@ namespace Demo.PageObjects.Velocraft
             DropperLevelImageInDetails.WaitDisplayed();
             AddToTheAssemblyButton.Click();
             // Седло
-            SaddleImage.ScrollIntoView(alignToTop: false);
-            SaddleImage.WaitDisplayed();
-            SaddleImage.Click();
-            SaddleImageInDetails.WaitDisplayed();
+            SaddleImage(saddleName).ScrollIntoView(alignToTop: false);
+            SaddleImage(saddleName).WaitDisplayed();
+            SaddleImage(saddleName).Click();
+            SaddleImageInDetails(saddleName).WaitDisplayed();
             AddToTheAssemblyButton.Click();
             return new VelocraftHomePageIlya();
         }
