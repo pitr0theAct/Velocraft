@@ -2,6 +2,9 @@
 
 namespace Demo.PageObjects.Velocraft
 {
+    /// <summary>
+    /// Страница выбора компонентов трансмиссии (кассета, переключатель, манетки, система, каретка, цепь, педали) в конструкторе велосипеда.
+    /// </summary>
     public class VelocraftTransmissionPage
     {
         WebItemWrap AddToTheAssemblyButton =>
@@ -69,6 +72,14 @@ namespace Demo.PageObjects.Velocraft
             new WebItemWrap("//section[contains(@class, 'content-info__item-content')]//img[contains(@alt, 'e*thirteen Base Flat Platform Pedals')]",
                 "Картинка педали в детальном просмотре");
 
+        /// <summary>
+        /// Выполняет последовательное добавление всех компонентов трансмиссии в сборку
+        /// </summary>
+        /// <returns>Страница выбора деталей для категории "Руль" <see cref="VelocraftHandlebarPage"/></returns>
+        /// <remarks>
+        /// Каждый компонент выбирается кликом по его изображению, затем ожидается загрузка детального просмотра,
+        /// после чего нажимается кнопка «Добавить в сборку».
+        /// </remarks>
         public VelocraftHandlebarPage ChoosingPartsOfTheTransmission()
         {
             // Кассета
@@ -79,13 +90,13 @@ namespace Demo.PageObjects.Velocraft
             // Переключатель
             SwitchImage.WaitDisplayed();
             SwitchImage.Click();
-            SwitchImageInDetails.WaitDisplayed(15);
+            SwitchImageInDetails.WaitDisplayed();
             AddToTheAssemblyButton.Click();
             ////WaitersCore.Wait_s(10);
             // Манетки
             ManettesImage.WaitDisplayed(15);
             ManettesImage.Click();
-            ManettesImageInDetails.WaitDisplayed(15);
+            ManettesImageInDetails.WaitDisplayed();
             AddToTheAssemblyButton.Click();
             // Система
             SystemImage.WaitDisplayed();

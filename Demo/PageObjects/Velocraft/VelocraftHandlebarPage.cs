@@ -4,6 +4,9 @@ using System.Xml.Linq;
 
 namespace Demo.PageObjects.Velocraft
 {
+    /// <summary>
+    /// Страница выбора компонентов рулевого управления (рулевая колонка, вынос руля, руль, грипсы) в конструкторе велосипеда.
+    /// </summary>
     public class VelocraftHandlebarPage
     {
         WebItemWrap AddToTheAssemblyButton =>
@@ -55,6 +58,15 @@ namespace Demo.PageObjects.Velocraft
             new WebItemWrap("//section[contains(@class, 'content-info__item-content')]//img[contains(@alt, 'ODI Troy Lee Designs MTB Lock-On Handlebar Grips')]",
                 "Картинка грипсы в детальном просмотре");
 
+        /// <summary>
+        /// Выполняет последовательное добавление всех компонентов рулевого управления в сборку
+        /// </summary>
+        /// <returns>Страница выбора деталей из категории "Тормоза" <see cref="VelocraftBrakesPage"/></returns>
+        /// <remarks>
+        /// Каждый компонент выбирается кликом по его изображению, ожидается загрузка детального просмотра,
+        /// затем нажимается кнопка «Добавить в сборку».
+        /// Для грипсов перед кликом выполняется прокрутка к элементу (ScrollIntoView).
+        /// </remarks>
         public VelocraftBrakesPage ChoosingPartsOfTheHandlebar()
         {
             // Рулевая колонка
@@ -68,9 +80,9 @@ namespace Demo.PageObjects.Velocraft
             HandlebarStemImageInDetails.WaitDisplayed();
             AddToTheAssemblyButton.Click();
             ////WaitersCore.Wait_s(10);
-            // Руль
             //PaginationButton.Click();
             //PaginationButtonActive.WaitDisplayed(10);
+            // Руль
             HandlebarImage.WaitDisplayed();
             HandlebarImage.Click();
             HandlebarImageInDetails.WaitDisplayed();
