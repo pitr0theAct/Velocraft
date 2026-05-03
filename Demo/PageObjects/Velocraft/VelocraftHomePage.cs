@@ -15,7 +15,7 @@ namespace Demo.PageObjects
     public class VelocraftHomePage
     {
         #region Elements
-        WebItemWrap closePopUpButton => new WebItemWrap("//span[@class='popup-window-close-icon popup-window-titlebar-close-icon']", "Кнопка 'Роботы'");
+        WebItemWrap closePopUpButton => new WebItemWrap("//span[@class='popup-window-close-icon popup-window-titlebar-close-icon']", "Кнопка закрытия попапа");
         WebItemWrap selectBase => new WebItemWrap("//div[contains(@class, 'content-catalog__header-group')]/child::p[text()='Основа']", "Кнопка Основа");
 
         WebItemWrap selectForkCategory => new WebItemWrap("//div[@class='content-catalog__category-item']/child::p[text()='Вилка']", "Кнопка Вилка");
