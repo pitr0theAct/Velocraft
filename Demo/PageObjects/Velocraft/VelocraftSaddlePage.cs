@@ -42,13 +42,13 @@ namespace Demo.PageObjects.Velocraft
         /// Выполняет последовательное добавление всех деталей из категории "Седло"
         /// </summary>
         /// <param name="saddleName"></param>
-        /// <returns>Главная страница <see cref="VelocraftHomePageIlya"/> после завершения выбора компонентов седла</returns>
+        /// <returns>Главная страница <see cref="VelocraftMainPage"/> после завершения выбора компонентов седла</returns>
         /// <remarks>
         /// Каждый компонент выбирается кликом по его изображению, ожидается загрузка детального просмотра,
         /// затем нажимается кнопка «Добавить в сборку».
         /// Перед кликом для каждого элемента выполняется прокрутка к элементу (ScrollIntoView).
         /// </remarks>
-        public VelocraftHomePageIlya ChoosingPartsOfTheSaddle(string saddleName)
+        public VelocraftMainPage ChoosingPartsOfTheSaddle(string saddleName)
         {
             // Подседельный штырь
             SeatpostImage.ScrollIntoView(alignToTop: false);
@@ -68,7 +68,7 @@ namespace Demo.PageObjects.Velocraft
             SaddleImage(saddleName).Click();
             SaddleImageInDetails(saddleName).WaitDisplayed();
             AddToTheAssemblyButton.Click();
-            return new VelocraftHomePageIlya();
+            return new VelocraftMainPage();
         }
     }
 }
