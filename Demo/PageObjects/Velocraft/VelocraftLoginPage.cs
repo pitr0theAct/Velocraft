@@ -48,5 +48,15 @@ namespace Demo.PageObjects.Velocraft
             AuthorizationButton.Click();
             return new VelocraftMainPage();
         }
+
+        public VelocraftLoginPage AssertRegistrationSuccess()
+        {
+            var loginField = new WebItemWrap("//section[contains(@class, 'login-layout')]//input[@placeholder='Введите логин...']", "Поле логина");
+            if (!loginField.WaitDisplayed(15))
+            {
+                throw new Exception("Регистрация не удалась: страница авторизации не загрузилась.");
+            }
+            return this;
+        }
     }
 }
