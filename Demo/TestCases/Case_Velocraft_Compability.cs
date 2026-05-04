@@ -14,12 +14,12 @@ namespace Demo.TestCases
                 var caseCollection = new List<ExecutableTestCase>();
                 caseCollection.Add(new ExecutableTestCase("Проверка совместимости деталей (Velocraft)", (Action<WebHomePage>)(homePage =>
                 {
-                    var ilyaHome = new VelocraftHomePageIlya(homePage.Driver);
+                    var ilyaHome = new VelocraftMainPage(homePage.Driver);
                     CheckCompability(ilyaHome);
                 })));
                 return caseCollection;
             }
-            void CheckCompability(VelocraftHomePageIlya homePage)
+            void CheckCompability(VelocraftMainPage homePage)
             {
                 // Данные для регистрации
                 string login = "testuser_" + HelperMethodsCore.GetDateTimeSalt();

@@ -12,13 +12,13 @@ namespace Demo.TestCases
             var caseCollection = new List<ExecutableTestCase>();
             caseCollection.Add(new ExecutableTestCase("Полный проход конфигуратора с сохранением сборки (Velocraft)", (Action<WebHomePage>)(homePage =>
             {
-                var ilyaHome = new VelocraftHomePageIlya(homePage.Driver);
+                var ilyaHome = new VelocraftMainPage(homePage.Driver);
                 FullConfiguratorPass(ilyaHome);
             })));
             return caseCollection;
         }
 
-        void FullConfiguratorPass(VelocraftHomePageIlya homePage)
+        void FullConfiguratorPass(VelocraftMainPage homePage)
         {
             // Данные для регистрации
             string login = "testuser_" + HelperMethodsCore.GetDateTimeSalt();

@@ -40,13 +40,13 @@ namespace Demo.PageObjects.Velocraft
         /// <param name="login">Логин</param>
         /// <param name="password">Пароль</param>
         /// <returns>Главная страница сайта</returns>
-        public VelocraftHomePageIlya Authorization(string login, string password)
+        public VelocraftMainPage Authorization(string login, string password)
         {
             LoginField.WaitDisplayed();
             LoginField.SendKeys(login);
             PasswordField.SendKeys(password);
             AuthorizationButton.Click();
-            return new VelocraftHomePageIlya();
+            return new VelocraftMainPage();
         }
     }
 }
