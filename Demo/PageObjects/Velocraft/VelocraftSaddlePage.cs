@@ -41,7 +41,7 @@ namespace Demo.PageObjects.Velocraft
         /// <summary>
         /// Выполняет последовательное добавление всех деталей из категории "Седло"
         /// </summary>
-        /// <param name="saddleName"></param>
+        /// <param name="saddleName">Название седла</param>
         /// <returns>Главная страница <see cref="VelocraftMainPage"/> после завершения выбора компонентов седла</returns>
         /// <remarks>
         /// Каждый компонент выбирается кликом по его изображению, ожидается загрузка детального просмотра,

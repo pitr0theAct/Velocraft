@@ -14,8 +14,8 @@ namespace Demo.TestCases
                 var caseCollection = new List<ExecutableTestCase>();
                 caseCollection.Add(new ExecutableTestCase("Проверка совместимости деталей (Velocraft)", (Action<WebHomePage>)(homePage =>
                 {
-                    var ilyaHome = new VelocraftMainPage(homePage.Driver);
-                    CheckCompability(ilyaHome);
+                    var mainPage = new VelocraftMainPage(homePage.Driver);
+                    CheckCompability(mainPage);
                 })));
                 return caseCollection;
             }
@@ -31,7 +31,7 @@ namespace Demo.TestCases
                 string frameName = "Specialized Chisel Hardtail 29 Frame Kit - S Gloss Purple";
                 string forkName = "RockShox Domain Gold R DebonAir Boost 29";
 
-                var VelocraftBasePage = homePage
+                var loginPage = homePage
                 // Ввод роста и веса
                 .EnteringHeightAndWeight()
                 // Переходим на страницу авторизации
@@ -40,13 +40,15 @@ namespace Demo.TestCases
                 .GoToRegistrationPage()
                 // Регистрация
                 .Registration(login, name, surname, email, password)
+                // Проверка успешности регистрации
+                .AssertRegistrationSuccess();
+                var wheelsPage = loginPage
                 // Авторизация
                 .Authorization(login, password)
                  //Перейти в категорию сборки "Основа"
                 .OpenBase()
                 // Выбор деталей для категории "Основа"
-                .ChoosingPartsOfTheBase(frameName, forkName);
-                VelocraftBasePage
+                .ChoosingPartsOfTheBase(frameName, forkName)
                 // Проверка совместимости
                 .AssertCheckFrameAndForkCompability();
             }

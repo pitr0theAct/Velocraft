@@ -10,10 +10,10 @@ namespace Demo.TestCases
         protected override List<ExecutableTestCase> GetCases()
         {
             var caseCollection = new List<ExecutableTestCase>();
-            caseCollection.Add(new ExecutableTestCase("Полный проход конфигуратора с сохранением сборки (Velocraft)", (Action<WebHomePage>)(homePage =>
+            caseCollection.Add(new ExecutableTestCase("Полный проход конфигуратора с отображением сборки (Velocraft)", (Action<WebHomePage>)(homePage =>
             {
-                var ilyaHome = new VelocraftMainPage(homePage.Driver);
-                FullConfiguratorPass(ilyaHome);
+                var mainPage = new VelocraftMainPage(homePage.Driver);
+                FullConfiguratorPass(mainPage);
             })));
             return caseCollection;
         }
@@ -31,7 +31,7 @@ namespace Demo.TestCases
             string forkName = "RockShox Domain Gold R DebonAir Boost 29";
             string saddleName = "Chromag Overture LTD Saddle";
 
-            var VelocraftBasePage = homePage
+            var loginPage = homePage
                 // Ввод роста и веса
                 .EnteringHeightAndWeight()
                 // Переходим на страницу авторизации
@@ -40,6 +40,9 @@ namespace Demo.TestCases
                 .GoToRegistrationPage()
                 // Регистрация
                 .Registration(login, name, surname, email, password)
+                // Проверка успешности регистрации
+                .AssertRegistrationSuccess();
+                var mainPage = loginPage
                 // Авторизация
                 .Authorization(login, password)
                 // Перейти в категорию сборки "Основа"

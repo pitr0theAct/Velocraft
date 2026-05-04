@@ -71,6 +71,24 @@ namespace Demo.PageObjects.Velocraft
         private string _forkLower;
 
         /// <summary>
+        /// Нормализует строковое представление параметра, удаляя все символы, кроме цифр, точки и запятой
+        /// преоббразует запятую в точку
+        /// </summary>
+        /// <param name="value">Строка с размером диаметра штока вилки</param>
+        /// <returns>Числовое значение диаметра</returns>
+        private double NormalizeDiameter(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return double.NaN;
+            // Удаляем всё, кроме цифр, точки и запятой
+            var cleaned = System.Text.RegularExpressions.Regex.Replace(value.Trim(), @"[^\d,.-]", "");
+            cleaned = cleaned.Replace(',', '.');
+            if (double.TryParse(cleaned, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var result))
+                return result;
+            return double.NaN;
+        }
+
+        /// <summary>
         /// Инициализирует страницу выбора колёс с переданными параметрами совместимости рамы и вилки
         /// </summary>
         /// <param name="frameUpper">Верхний диаметр штока вилки, измеренный у рамы</param>
@@ -128,11 +146,16 @@ namespace Demo.PageObjects.Velocraft
         /// </summary>
         /// <returns>Тот же экземпляр страницы <see cref="VelocraftWheelsPage"/> для продолжения цепочки вызовов</returns>
         /// <exception cref="Exception">Выбрасывается, если верхний или нижний диаметр рамы не совпадает с соответствующим диаметром вилки</exception>
-        public VelocraftWheelsPage AssertCheckFrameAndForkCompability() 
+        public VelocraftWheelsPage AssertCheckFrameAndForkCompability()
         {
-            if (_frameUpper != _forkUpper)
+            double frameUpperNum = NormalizeDiameter(_frameUpper);
+            double forkUpperNum = NormalizeDiameter(_forkUpper);
+            double frameLowerNum = NormalizeDiameter(_frameLower);
+            double forkLowerNum = NormalizeDiameter(_forkLower);
+
+            if (Math.Abs(frameUpperNum - forkUpperNum) > 0.001)
                 throw new Exception($"Верхний диаметр штока не совпадает: рама={_frameUpper}, вилка={_forkUpper}");
-            if (_frameLower != _forkLower)
+            if (Math.Abs(frameLowerNum - forkLowerNum) > 0.001)
                 throw new Exception($"Нижний диаметр штока не совпадает: рама={_frameLower}, вилка={_forkLower}");
             return this;
         }
