@@ -65,6 +65,7 @@ namespace Demo.PageObjects.Velocraft
             new WebItemWrap("//section[contains(@class, 'content-info__item')]//img[@alt='Schwalbe Inner Tube 19+ Air Plus for 29+']",
                 "Картинка передней камеры в детальном просмотре");
 
+        // Поля для хранения параметров
         private string _frameUpper;
         private string _frameLower;
         private string _forkUpper;
@@ -76,7 +77,7 @@ namespace Demo.PageObjects.Velocraft
         /// </summary>
         /// <param name="value">Строка с размером диаметра штока вилки</param>
         /// <returns>Числовое значение диаметра</returns>
-        private double NormalizeDiameter(string value)
+        private double NormalizeDiameter(string value) // Вспомогательный helper метод
         {
             if (string.IsNullOrWhiteSpace(value))
                 return double.NaN;
@@ -95,7 +96,7 @@ namespace Demo.PageObjects.Velocraft
         /// <param name="frameLower">Нижний диаметр штока вилки, измеренный у рамы</param>
         /// <param name="forkUpper">Верхний диаметр штока вилки, измеренный у вилки</param>
         /// <param name="forkLower">Нижний диаметр штока вилки, измеренный у вилки</param>
-        public VelocraftWheelsPage(string frameUpper, string frameLower, string forkUpper, string forkLower)
+        public VelocraftWheelsPage(string frameUpper, string frameLower, string forkUpper, string forkLower) // Конструктор
         {
             _frameUpper = frameUpper;
             _frameLower = frameLower;
