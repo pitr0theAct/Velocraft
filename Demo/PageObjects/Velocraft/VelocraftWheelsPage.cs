@@ -98,7 +98,7 @@ namespace Demo.PageObjects.Velocraft
         /// <param name="forkLower">Нижний диаметр штока вилки, измеренный у вилки</param>
         public VelocraftWheelsPage(string frameUpper, string frameLower, string forkUpper, string forkLower) // Конструктор
         {
-            _frameUpper = frameUpper;
+            _frameUpper = frameUpper; // сохраняется значение из конструктора 
             _frameLower = frameLower;
             _forkUpper = forkUpper;
             _forkLower = forkLower;
