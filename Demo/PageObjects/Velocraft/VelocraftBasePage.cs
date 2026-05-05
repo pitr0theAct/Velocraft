@@ -40,8 +40,8 @@ namespace Demo.PageObjects.Velocraft
         // Вспомогательный метод для получения параметра 
         private string GetParameterValue(string parameterName)
         {
-            string xpath = $"//div[@class='item-feature']/dt[contains(text(),'{parameterName}')]/following-sibling::dd[1]";
-            var param = new WebItemWrap(xpath, $"Параметр {parameterName}");
+            string xpathParam = $"//div[@class='item-feature']/dt[contains(text(),'{parameterName}')]/following-sibling::dd[1]";
+            var param = new WebItemWrap(xpathParam, $"Параметр {parameterName}");
             param.WaitDisplayed();
             return param.InnerText().Trim();
         }
