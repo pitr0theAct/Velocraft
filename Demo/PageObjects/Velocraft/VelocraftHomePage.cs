@@ -6,6 +6,7 @@ using OpenQA.Selenium.BiDi.Input;
 using OpenQA.Selenium.DevTools.V143.Emulation;
 using OpenQA.Selenium.DevTools.V143.Page;
 using OpenQA.Selenium.DevTools.V144.DOM;
+using Demo.BaseFramework.LogTools;
 
 namespace Demo.PageObjects
 {
@@ -24,21 +25,11 @@ namespace Demo.PageObjects
 
         WebItemWrap buttonAdd => new WebItemWrap("//button[contains(@class,'button_add')]", "Кпока Добавить в сборку");
 
-        WebItemWrap frameInCraft(string name) => new WebItemWrap($"//section[@class='mainlayout__content-craft']/descendant::img[@alt='{name}']", $"Рама {name} в блоке сборки");
-
-        WebItemWrap forkInCraft(string name) => new WebItemWrap($"//section[@class='mainlayout__content-craft']/descendant::img[@alt='{name}']", $"Вилка {name} в блоке сборки");
-
-        WebItemWrap weelsInCraft(string name) => new WebItemWrap($"//section[@class='mainlayout__content-craft']/descendant::img[@alt='{name}']", $"Колеса {name} в блоке сборки");
-
-        WebItemWrap tiresInCraft(string name) => new WebItemWrap($"//section[@class='mainlayout__content-craft']/descendant::img[@alt='{name}']", $"Покрышки {name} в блоке сборки");
+        WebItemWrap partInCraft(string name, string partType = "Деталь") => new WebItemWrap($"//section[@class='mainlayout__content-craft']/descendant::img[@alt='{name}']", $"{partType} {name} в блоке сборки");
 
         WebItemWrap confirmButton => new WebItemWrap("//button[@class='ui-btn popup__button --danger']", "Кнопка подтвердить изменение");
 
-        WebItemWrap selectFork(string name) => new WebItemWrap($"//div[@class='catalog-item__image']/child::img[contains(@alt,'{name}')]", "Вилка в списке");
-
-        WebItemWrap selectWeels(string name) => new WebItemWrap($"//div[@class='catalog-item__image']/child::img[contains(@alt,'{name}')]", "Колеса в списке");
-
-        WebItemWrap selectTires(string name) => new WebItemWrap($"//div[@class='catalog-item__image']/child::img[contains(@alt,'{name}')]", "Покрышки в списке");
+        WebItemWrap selectPart(string name, string partType = "Деталь") => new WebItemWrap($"//div[@class='catalog-item__image']/child::img[contains(@alt,'{name}')]", $"{partType} в списке");
 
         WebItemWrap emptyCatalog => new WebItemWrap("//div[@class='content-catalog__catalog-empty']", "Пустой катлог");
 
@@ -63,7 +54,7 @@ namespace Demo.PageObjects
             {
                 closePopUpButton.Click(Driver);
             }
-            return new VelocraftHomePage();
+            return this;
         }
 
         /// <summary>
@@ -80,50 +71,23 @@ namespace Demo.PageObjects
             selectFrame(name).Click();
             selectedSection.WaitDisplayed(5);
             buttonAdd.Click();
-            return new VelocraftHomePage();
+            return this;
         }
 
         /// <summary>
-        /// Метод добавления вилки в сборку
+        /// Метод добавления детали в сборку
         /// </summary>
-        /// <param name="name">Название вилки</param>
+        /// <param name="name">Название детали</param>
+        /// <param name="partType">Тип детали</param>
         /// <returns></returns>
-        public VelocraftHomePage AddFork(string name)
+        public VelocraftHomePage AddPart(string name, string partType = "Деталь")
         {
-            selectFork(name).WaitDisplayed(5);
-            selectFork(name).Click();
+            var part = selectPart(name, partType);
+            part.WaitDisplayed(5);
+            part.Click();
             selectedSection.WaitDisplayed(5);
             buttonAdd.Click();
-            return new VelocraftHomePage();
-        }
-
-        /// <summary>
-        /// Метод добавления колес в сборку
-        /// </summary>
-        /// <param name="name">Название колес</param>
-        /// <returns></returns>
-        public VelocraftHomePage AddWeels(string name)
-        {
-            selectWeels(name).WaitDisplayed(5);
-            selectWeels(name).Click();
-            selectedSection.WaitDisplayed(5);
-            buttonAdd.Click();
-            return new VelocraftHomePage();
-        }
-
-        /// <summary>
-        /// Метод добавления покрышек в сборку
-        /// </summary>
-        /// <param name="name">Название покрышек</param>
-        /// <returns></returns>
-        public VelocraftHomePage AddTires(string name)
-        {
-            selectTires(name).Click();
-            buttonAdd.Click();
-            selectTires(name).Click();
-            selectedSection.WaitDisplayed(5);
-            buttonAdd.Click();
-            return new VelocraftHomePage();
+            return this;
         }
 
         /// <summary>
@@ -133,7 +97,7 @@ namespace Demo.PageObjects
         public VelocraftHomePage ConfirmFrameChange()
         {
             confirmButton.Click();
-            return new VelocraftHomePage();
+            return this;
         }
 
         /// <summary>
@@ -141,54 +105,38 @@ namespace Demo.PageObjects
         /// </summary>
         /// <param name="name">Название рамы</param>
         /// <returns></returns>
-        public bool AssertFrameName(string name)
+        public VelocraftHomePage AssertFramePresent(string name)
         {
-            bool isFrameNameExists = frameInCraft(name).WaitDisplayed(50);
-            return isFrameNameExists;
+            bool isFrameNameExists = partInCraft(name, "Рама").WaitDisplayed(50);
+            if (!isFrameNameExists)
+            {
+                Log.Error($"Название рамы {name} не отображается в блоке Просмотр сборки");
+            }
+            return this;
         }
 
         /// <summary>
-        /// Проверка отсутсвия рамы сборке
+        /// Проверка сброса старых деталей
         /// </summary>
-        /// <param name="name">Название рамы</param>
-        /// <returns></returns>
-        public bool HaveNoFrame(string name)
+        public VelocraftHomePage AssertPartsReset(string frameName, string forkName, string weelsName, string tiresName)
         {
-            bool isElementsNotInCraft = frameInCraft(name).WaitDisplayed();
-            return isElementsNotInCraft;
-        }
-
-        /// <summary>
-        /// Проверка отсутсвия вилки в сборке
-        /// </summary>
-        /// <param name="name">Название вилки</param>
-        /// <returns></returns>
-        public bool HaveNoFork(string name)
-        {
-            bool isElementsNotInCraft = forkInCraft(name).WaitDisplayed();
-            return isElementsNotInCraft;
-        }
-
-        /// <summary>
-        /// Проверка отсутсвия колес в сборке
-        /// </summary>
-        /// <param name="name">Название колес</param>
-        /// <returns></returns>
-        public bool HaveNoWeels(string name)
-        {
-            bool isElementsNotInCraft = weelsInCraft(name).WaitDisplayed();
-            return isElementsNotInCraft;
-        }
-
-        /// <summary>
-        /// Проверка отсутсвия покрышек в сборке
-        /// </summary>
-        /// <param name="name">Название покрышек</param>
-        /// <returns></returns>
-        public bool HaveNoTires(string name)
-        {
-            bool isElementsNotInCraft = tiresInCraft(name).WaitDisplayed();
-            return isElementsNotInCraft;
+            if (partInCraft(frameName, "Рама").WaitDisplayed())
+            {
+                Log.Error($"Рама {frameName} не сбросилась из блока Просмотр сборки");
+            }
+            if (partInCraft(forkName, "Вилка").WaitDisplayed())
+            {
+                Log.Error($"Вилка {forkName} не сбросилась из блока Просмотр сборки");
+            }
+            if (partInCraft(weelsName, "Колеса").WaitDisplayed())
+            {
+                Log.Error($"Колеса {weelsName} не сбросились из блока Просмотр сборки");
+            }
+            if (partInCraft(tiresName, "Покрышки").WaitDisplayed())
+            {
+                Log.Error($"Покрышки {tiresName} не сбросились из блока Просмотр сборки");
+            }
+            return this;
         }
 
         /// <summary>
@@ -198,7 +146,7 @@ namespace Demo.PageObjects
         public VelocraftHomePage OpenBase()
         {
             selectBase.Click();
-            return new VelocraftHomePage();
+            return this;
         }
 
         /// <summary>
@@ -208,24 +156,38 @@ namespace Demo.PageObjects
         public VelocraftHomePage OpenFork()
         {
             selectForkCategory.Click();
-            return new VelocraftHomePage();
+            return this;
         }
 
         /// <summary>
         /// Проверка того, что каталог пуст
         /// </summary>
         /// <returns></returns>
-        public bool AssertEmptyCatalog()
+        public VelocraftHomePage AssertCatalogEmpty(string errorMessage)
         {
             bool isCatalogEmpty = emptyCatalog.WaitDisplayed(3);
-            return isCatalogEmpty;
+            if (!isCatalogEmpty)
+            {
+                Log.Error(errorMessage);
+            }
+            return this;
         }
 
-        public bool AssertFrameBrand(string brandName)
+        public VelocraftHomePage AssertCatalogNotEmpty(string errorMessage)
+        {
+            bool isCatalogEmpty = emptyCatalog.WaitDisplayed(3);
+            if (isCatalogEmpty)
+            {
+                Log.Error(errorMessage);
+            }
+            return this;
+        }
+
+        public VelocraftHomePage AssertFrameBrand(string brandName)
         {
             bool isBrandExist = new WebItemWrap($"//section[@class='content-catalog__catalog-container --build']//descendant::div[@class='catalog-item__manufacturer']/child::p[text()='{brandName}']", 
                 "Название бренда детали в блоке Просмотр сборки").AssertTextContaining(brandName, "Название бренда детали не корректное");
-            return isBrandExist;
+            return this;
         }
     }
 }

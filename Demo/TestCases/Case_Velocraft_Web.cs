@@ -36,22 +36,15 @@ namespace Demo.TestCases
             string brandName = VelocraftTestData.DefaultBrandName;
 
             // Открываем сайт
-            var addedFrame = homePage
+            homePage
             // Закрываем popUp с вводом роста и веса
                 .ClosePopUp()
             // Добавляем раму в сборку
-                .AddFrame(frameName);
-
+                .AddFrame(frameName)
             // Проверка наличия рамы в сборке
-            bool isFramePresent = addedFrame.AssertFrameName(frameName);
-            if (!isFramePresent)
-            {
-                Log.Error($"Название рамы {frameName} " +
-                    $"не отображается в блоке Просмотр сборки");
-            }
-
+                .AssertFramePresent(frameName)
             // Проверка наличия названия бренда
-            addedFrame.AssertFrameBrand(brandName);
+                .AssertFrameBrand(brandName);
         }
 
         /// <summary>
@@ -68,53 +61,24 @@ namespace Demo.TestCases
             string newFrameName = VelocraftTestData.AlternativeFrameName;
 
             // Открываем сайт
-            var resetedConfig = homePage.ClosePopUp()
+            homePage.ClosePopUp()
             // Добавляем Раму
                 .AddFrame(frameName)
             // Добавляем Вилку
-                .AddFork(forkName)
+                .AddPart(forkName, "Вилка")
             // Добавляем Колеса
-                .AddWeels(weelsName)
+                .AddPart(weelsName, "Колеса")
             // Добавляем Покрышки
-                .AddTires(tiresName)
+                .AddPart(tiresName, "Покрышки")
             // Возвращаемся к раме и добавляем новую раму
                 .AddFrame(newFrameName)
             // Подтверждаем действие
-                .ConfirmFrameChange();
-
+                .ConfirmFrameChange()
             // Ассерты
             // Проверка наличния новой рамы в сборке
-            bool isFramePresent = resetedConfig.AssertFrameName(newFrameName);
-            if (!isFramePresent)
-            {
-                Log.Error($"Название рамы {frameName} " +
-                    $"не отображается в блоке Просмотр сборки");
-            }
-
+                .AssertFramePresent(newFrameName)
             // Проверка сброса старых деталей
-            bool isFrameReseted = resetedConfig.HaveNoFrame(frameName);
-            if (isFrameReseted)
-            {
-                Log.Error($"Рама {frameName} не сбросилась из блока Просмотр сборки");
-            }
-
-            bool isForkReseted = resetedConfig.HaveNoFork(forkName);
-            if (isForkReseted)
-            {
-                Log.Error($"Вилка {forkName} не сбросилась из блока Просмотр сборки");
-            }
-
-            bool isWeelsReseted = resetedConfig.HaveNoWeels(weelsName);
-            if (isWeelsReseted)
-            {
-                Log.Error($"Колеса {weelsName} на сбросились из блока Просмотр сборки");
-            }
-
-            bool isTiresReseted = resetedConfig.HaveNoTires(tiresName);
-            if (isTiresReseted)
-            {
-                Log.Error($"Покрышки {tiresName} не сбросились из блока Просмотр сборки");
-            }
+                .AssertPartsReset(frameName, forkName, weelsName, tiresName);
         }
         
         /// <summary>
@@ -126,25 +90,16 @@ namespace Demo.TestCases
             string frameName = VelocraftTestData.DefaultFrameName;
             
             // Открываем сайт конфигуратора
-            var forkSelection = homePage.ClosePopUp()
+            homePage.ClosePopUp()
             // Пытаемся перейти в новую категорию «Вилка», не выбрав деталь в предыдущей категории «Рама»
                 .OpenBase()
-                .OpenFork();
+                .OpenFork()
             // Проверяем наличе сообщения о том, что сначала нужно выбрать раму
-            var isCatalogEmptyBefore = forkSelection.AssertEmptyCatalog();
-            if (!isCatalogEmptyBefore)
-            {
-                Log.Error("Катоалог вилок не пуст без выбора рамы");
-            }
-            
+                .AssertCatalogEmpty("Каталог вилок не пуст без выбора рамы")
             // Выбираем первую деталь в категории «Рама»
-            var IsCatalogEmptyAfter = forkSelection.AddFrame(frameName)
+                .AddFrame(frameName)
             // Проверяем, что теперь выбор вилки доступен
-                .AssertEmptyCatalog();
-            if (IsCatalogEmptyAfter)
-            {
-                Log.Error("Каталог пуст вилок пуст после выбора рамы");
-            }
+                .AssertCatalogNotEmpty("Каталог вилок пуст после выбора рамы");
         }
     }
 }
