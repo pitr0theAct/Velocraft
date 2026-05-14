@@ -3,6 +3,7 @@ using Demo.BaseFramework.LogTools;
 using Demo.BaseFramework.ScriptInterraction;
 using Demo.PageObjects;
 using Demo.SeleniumFramework.DriverActions;
+using Demo.TestEntities;
 using OpenQA.Selenium.DevTools.V143.Page;
 
 namespace Demo.TestCases
@@ -32,22 +33,19 @@ namespace Demo.TestCases
         public static void AddFrame(VelocraftHomePage homePage)
         {
             // Название рамы
-            string frameName = "Specialized Chisel Hardtail 29 Frame Kit - S Gloss Purple";
+            string frameName = VelocraftTestData.DefaultFrameName;
+            string brandName = VelocraftTestData.DefaultBrandName;
 
             // Открываем сайт
-            bool isFramePresent = homePage
-                // Закрываем popUp с вводом роста и веса
+            homePage
+            // Закрываем popUp с вводом роста и веса
                 .ClosePopUp()
-                // Добавляем раму в сборку
+            // Добавляем раму в сборку
                 .AddFrame(frameName)
-                // Проверка наличия рамы в сборке
-                .AssertFrameName(frameName);
-
-            if (!isFramePresent)
-            {
-                Log.Error($"Название рамы {frameName} " +
-                    $"не отображается в блоке Просмотр сборки");
-            }
+            // Проверка наличия рамы в сборке
+                .AssertFramePresent(frameName)
+            // Проверка наличия названия бренда
+                .AssertFrameBrand(brandName);
         }
 
         /// <summary>
@@ -57,60 +55,31 @@ namespace Demo.TestCases
         public static void ResetConfigAfterFrameSwap(VelocraftHomePage homePage)
         {
             // Названия добавляемых деталий
-            string frameName = "Specialized Chisel Hardtail 29 Frame Kit - S Gloss Purple";
-            string forkName = "RockShox Domain Gold R DebonAir Boost 29";
-            string weelsName = "bc original Loamer MK2 Center Lock Disc 29";
-            string tiresName = "Specialized Butcher Grid Trail T9";
-            string newFrameName = "Specialized Chisel Hardtail 29 Frame Kit - M Gloss Purple";
+            string frameName = VelocraftTestData.DefaultFrameName;
+            string forkName = VelocraftTestData.DefaultForkName;
+            string weelsName = VelocraftTestData.DefaultWheelsName;
+            string tiresName = VelocraftTestData.DefaultTiresName;
+            string newFrameName = VelocraftTestData.AlternativeFrameName;
 
             // Открываем сайт
-            var resetedConfig = homePage.ClosePopUp()
+            homePage.ClosePopUp()
             // Добавляем Раму
                 .AddFrame(frameName)
             // Добавляем Вилку
-                .AddFork(forkName)
+                .AddPart(forkName, "Вилка")
             // Добавляем Колеса
-                .AddWeels(weelsName)
+                .AddPart(weelsName, "Колеса")
             // Добавляем Покрышки
-                .AddTires(tiresName)
+                .AddPart(tiresName, "Покрышки")
             // Возвращаемся к раме и добавляем новую раму
                 .AddFrame(newFrameName)
             // Подтверждаем действие
-                .ConfirmFrameChange();
-
+                .ConfirmFrameChange()
             // Ассерты
             // Проверка наличния новой рамы в сборке
-            bool isFramePresent = resetedConfig.AssertFrameName(newFrameName);
-            if (!isFramePresent)
-            {
-                Log.Error($"Название рамы {frameName} " +
-                    $"не отображается в блоке Просмотр сборки");
-            }
-
+                .AssertFramePresent(newFrameName)
             // Проверка сброса старых деталей
-            bool isFrameReseted = resetedConfig.HaveNoFrame(frameName);
-            if (isFrameReseted)
-            {
-                Log.Error($"Рама {frameName} не сбросилась из блока Просмотр сборки");
-            }
-
-            bool isForkReseted = resetedConfig.HaveNoFork(forkName);
-            if (isForkReseted)
-            {
-                Log.Error($"Вилка {forkName} не сбросилась из блока Просмотр сборки");
-            }
-
-            bool isWeelsReseted = resetedConfig.HaveNoWeels(weelsName);
-            if (isWeelsReseted)
-            {
-                Log.Error($"Колеса {weelsName} на сбросились из блока Просмотр сборки");
-            }
-
-            bool isTiresReseted = resetedConfig.HaveNoTires(tiresName);
-            if (isTiresReseted)
-            {
-                Log.Error($"Покрышки {tiresName} не сбросились из блока Просмотр сборки");
-            }
+                .AssertPartsReset(frameName, forkName, weelsName, tiresName);
         }
         
         /// <summary>
@@ -119,28 +88,19 @@ namespace Demo.TestCases
         /// <param name="homePage"></param>
         public static void CategorySelectionSkipStepBlocked(VelocraftHomePage homePage)
         {
-            string frameName = "Specialized Chisel Hardtail 29 Frame Kit - S Gloss Purple";
+            string frameName = VelocraftTestData.DefaultFrameName;
             
             // Открываем сайт конфигуратора
-            var forkSelection = homePage.ClosePopUp()
+            homePage.ClosePopUp()
             // Пытаемся перейти в новую категорию «Вилка», не выбрав деталь в предыдущей категории «Рама»
                 .OpenBase()
-                .OpenFork();
+                .OpenFork()
             // Проверяем наличе сообщения о том, что сначала нужно выбрать раму
-            var isCatalogEmptyBefore = forkSelection.AssertEmptyCatalog();
-            if (!isCatalogEmptyBefore)
-            {
-                Log.Error("Катоалог вилок не пуст без выбора рамы");
-            }
-            
+                .AssertCatalogEmpty("Каталог вилок не пуст без выбора рамы")
             // Выбираем первую деталь в категории «Рама»
-            var IsCatalogEmptyAfter = forkSelection.AddFrame(frameName)
+                .AddFrame(frameName)
             // Проверяем, что теперь выбор вилки доступен
-                .AssertEmptyCatalog();
-            if (IsCatalogEmptyAfter)
-            {
-                Log.Error("Каталог пуст вилок пуст после выбора рамы");
-            }
+                .AssertCatalogNotEmpty("Каталог вилок пуст после выбора рамы");
         }
     }
 }
