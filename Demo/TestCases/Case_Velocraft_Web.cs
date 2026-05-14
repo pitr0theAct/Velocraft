@@ -3,6 +3,7 @@ using Demo.BaseFramework.LogTools;
 using Demo.BaseFramework.ScriptInterraction;
 using Demo.PageObjects;
 using Demo.SeleniumFramework.DriverActions;
+using Demo.TestEntities;
 using OpenQA.Selenium.DevTools.V143.Page;
 
 namespace Demo.TestCases
@@ -31,8 +32,8 @@ namespace Demo.TestCases
         public static void AddFrame(VelocraftHomePage homePage)
         {
             // Название рамы
-            string frameName = "Specialized Chisel Hardtail 29 Frame Kit - S Gloss Purple";
-            string brandName = "Specialized";
+            string frameName = VelocraftTestData.DefaultFrameName;
+            string brandName = VelocraftTestData.DefaultBrandName;
 
             // Открываем сайт
             var addedFrame = homePage
@@ -60,11 +61,11 @@ namespace Demo.TestCases
         public static void ResetConfigAfterFrameSwap(VelocraftHomePage homePage)
         {
             // Названия добавляемых деталий
-            string frameName = "Specialized Chisel Hardtail 29 Frame Kit - S Gloss Purple";
-            string forkName = "RockShox Domain Gold R DebonAir Boost 29";
-            string weelsName = "bc original Loamer MK2 Center Lock Disc 29";
-            string tiresName = "Specialized Butcher Grid Trail T9";
-            string newFrameName = "Specialized Chisel Hardtail 29 Frame Kit - M Gloss Purple";
+            string frameName = VelocraftTestData.DefaultFrameName;
+            string forkName = VelocraftTestData.DefaultForkName;
+            string weelsName = VelocraftTestData.DefaultWheelsName;
+            string tiresName = VelocraftTestData.DefaultTiresName;
+            string newFrameName = VelocraftTestData.AlternativeFrameName;
 
             // Открываем сайт
             var resetedConfig = homePage.ClosePopUp()
@@ -122,7 +123,7 @@ namespace Demo.TestCases
         /// <param name="homePage"></param>
         public static void CategorySelectionSkipStepBlocked(VelocraftHomePage homePage)
         {
-            string frameName = "Specialized Chisel Hardtail 29 Frame Kit - S Gloss Purple";
+            string frameName = VelocraftTestData.DefaultFrameName;
             
             // Открываем сайт конфигуратора
             var forkSelection = homePage.ClosePopUp()
